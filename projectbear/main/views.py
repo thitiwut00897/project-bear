@@ -7,7 +7,10 @@ from django.contrib import messages
 # Create your views here.
 @login_required
 def index(request):
-    return HttpResponse('Index มาแล้ว')
+    if request.user.username == 'admin':
+        return HttpResponse('ป้า')
+    else:
+        return HttpResponse('ลูกค้า %s' %(request.user.username))
 def my_login(request):
     context = {}
     if request.method == "POST":
