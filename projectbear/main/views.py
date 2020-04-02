@@ -8,9 +8,14 @@ from django.contrib import messages
 @login_required
 def index(request):
     if request.user.username == 'admin':
-        return HttpResponse('ป้า')
+        # return HttpResponse('ป้า')
+        return render(request, 'manage/queue.html')
     else:
-        return HttpResponse('ลูกค้า %s' %(request.user.username))
+        # return HttpResponse('ลูกค้า %s' %(request.user.username))
+        context={
+            'user' : request.user.username
+        }
+        return render(request, 'main/index.html', context=context)
 def my_login(request):
     context = {}
     if request.method == "POST":
