@@ -1,9 +1,7 @@
 {% extends "base_login.html" %}
 {% block content %}
 <script>
-    function regis(){
-        alert('ลงทะเบียนเรียบร้อยแล้ว')
-    };
+
 </script>
     <div class="container">
         <h1>ลงทะเบียน</h1>
@@ -40,7 +38,7 @@
                 <input type="password" class="form-control col" id="password" 
                     name="password2" value="">
             </div>
-            <button type="submit" class="btn btn-primary col" onclick='regis()'>สมัครสมาชิก</button>
+            <button type="submit" class="btn btn-primary col">สมัครสมาชิก</button>
         </form><br>
         <a href='{% url 'login' %}'>
             <div class='btn btn-info col'>กลับไปยังหน้าเข้าสู่ระบบ</div>
