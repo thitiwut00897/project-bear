@@ -55,7 +55,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand" href="#"><img src="{% static 'payment-terminal.png'%}"> ชื่อเว็บ</a>
-        {% comment %} <div class="collapse navbar-collapse" id="navbarText">
+         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link">หน้าหลัก</a>
@@ -66,8 +66,11 @@
                 <li class="nav-item">
                     <a class="nav-link">รายงานสรุป</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">logout</a>
+                </li>
             </ul>
-        </div> {% endcomment %}
+        </div>
     </nav>
     <br>
     <div class="container">
