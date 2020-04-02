@@ -1,0 +1,50 @@
+{% extends "base_login.html" %}
+{% block content %}
+<script>
+    function regis(){
+        alert('ลงทะเบียนเรียบร้อยแล้ว')
+    };
+</script>
+    <div class="container">
+        <h1>Register</h1>
+        <br/>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control col" id="username" 
+                    name="u_name" value="">
+            </div>
+            <div class="form-group">
+                <label for="password">FirstName:</label>
+                <input type="text" class="form-control col" id="password" 
+                    name="f_name" value="">
+            </div>
+            <div class="form-group">
+                <label for="password">LastName:</label>
+                <input type="text" class="form-control col" id="password" 
+                    name="l_name" value="">
+            </div>
+            <div class="form-group">
+                <label for="password">Email:</label>
+                <input type="text" class="form-control col" id="password" 
+                    name="email" value="">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control col" id="password" 
+                    name="password1" value="">
+            </div>
+            <div class="form-group">
+                <label for="password">Re-Password:</label>
+                <input type="password" class="form-control col" id="password" 
+                    name="password2" value="">
+            </div>
+            <button type="submit" class="btn btn-primary col" onclick='regis()'>Register</button>
+        </form><br>
+        <a href='{% url 'login' %}'>
+            <div class='btn btn-info col'>กลับไปยังหน้าเข้าสู่ระบบ</div>
+        </a>
+        <br/><br/>
+    </div>
+{% endblock %}

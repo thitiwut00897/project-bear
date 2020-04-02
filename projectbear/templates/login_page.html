@@ -1,0 +1,20 @@
+{% extends 'base_login.html' %}
+{% block content %}
+<h2>เข้าสู่ระบบ</h2><br>
+    <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{error}}
+        </div>
+        {% endif %}
+        <label>ชื่อผู้ใช้ : </label>
+        <input type="text" class="form-control" name="username" id="">
+        <label>รหัสผ่าน : </label>
+        <input type="password" class="form-control" name="password" id=""><br>
+        <input type="submit" value="เข้าสู่ระบบ" class="btn btn-primary col">
+    </form><br>
+    <a href='{% url 'register' %}'>
+        <div class='btn btn-success col'>สมัครสมาชิก</div>
+    </a>
+{% endblock %}
