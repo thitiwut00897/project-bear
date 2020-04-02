@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
+from django.contrib import messages
 # Create your views here.
 @login_required
 def index(request):
@@ -27,18 +28,30 @@ def my_logout(request):
     return redirect('login')
 def my_register(request):
     if request.method == 'POST':
+        username = request.POST['u_name']
+        firstname = request.POST['f_name']
+        lastname = request.POST['l_name']
+        email = request.POST['email']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
         if password1 == password2:
-            user = User.objects.create_user(
-                username = request.POST['u_name'],
-                first_name = request.POST['f_name'],
-                last_name = request.POST['l_name'],
-                email = request.POST['email'],
-                password = request.POST['password1'],
-            )
-            user.save()
-            return redirect('login')
+            if User.objects.filter(username=username).exists():
+                messages.info(request,'Username นี้มีคนใช้แล้ว')
+                return redirect('register')
+            elif User.objects.filter(email=email).exists():
+                messages.info(request,'Email นี้เคยลงทะเบียนแล้ว')
+                return redirect('register')
+            else:
+                user = User.objects.create_user(
+                    username = username,
+                    first_name = firstname,
+                    last_name = lastname,
+                    email = email,
+                    password = password1,
+                )
+                user.save()
+                return redirect('login')
         else:
+            messages.info(request,'รหัสผ่านไม่ตรงกัน')
             return redirect('register')
     return render(request,template_name='register_page.html')
