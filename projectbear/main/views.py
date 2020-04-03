@@ -67,3 +67,6 @@ def my_register(request):
             messages.info(request,'รหัสผ่านไม่ตรงกัน')
             return redirect('register')
     return render(request,template_name='register_page.html')
+
+def basket(request):
+    return render(request, 'main/basket.html')
