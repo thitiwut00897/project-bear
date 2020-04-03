@@ -12,7 +12,6 @@ def index(request):
     type = Type.objects.all()
     search = request.GET.get('search','')
     searchtype = request.GET.get('sel','')
-    print(searchtype)
     if search:
         product = product.filter(name__icontains=search)
     if searchtype > '0':
@@ -28,7 +27,6 @@ def my_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request,username=username,password=password)
-
         if user:
             login(request,user)
             return redirect('index')
