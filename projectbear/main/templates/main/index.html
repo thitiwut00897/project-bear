@@ -28,7 +28,7 @@
         <div class="row">
         {% for p in product %}
             <div class="card col-3">
-                <img class="card-img-top" src="{{ p.picture.url }}" alt="" style="max-width:50%;"> 
+                <img class="card-img-top" src="{{ p.picture.url }}" alt="" width='100%' height='150px'> 
                 <div class="card-body">
                     <h5 class="card-title">{{ p.name }}</h5>
                     <p class="card-text">{{ p.type.type_name }}</p>
