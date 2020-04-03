@@ -1,4 +1,87 @@
 {% extends 'basesell.html' %}
 {% block content %}
-<h2>จัดการคลังสินค้า</h2>
+<body>
+{{text}}
+  <div class="container">
+    <h2>จัดการสินค้า</h2>
+    <hr>
+    <form method="GET" action="{% url 'manage' %}">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-sm-2">
+          <label>ค้นหาสินค้า :</label>
+        </div>
+        <div class="col-sm-4">
+          <input type="text" name="search" value="{{search}}" placeholder="ค้นหา" class="form-control col">
+        </div>
+        <div class="col-sm-4">
+          <select name="sel" id="" class="form-control col">
+            <option value="0">ทั้งหมด</option>
+            {% for t in type %}
+            <option value="{{t.id}}">{{t.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col">
+          <input type="submit" value="Search" class="btn btn-primary">
+        </div>
+      </div><br>
+      <div class="row">
+        <div class="col">
+          <a href="{% url 'addpd'%}">
+            <div class="btn btn-outline-success col">เพิ่มสินค้า</div>
+          </a>
+        </div>
+        {% comment %} <div class="col">
+          <a href="{% url 'edittype'%}">
+            <div class="btn btn-outline-secondary col">จัดการประเภทของสินค้า</div>
+          </a>
+        </div> {% endcomment %}
+      </div><br>
+    </form>
+    <div class="scr">
+      <table class="table table-bordered-primary text-center">
+        <thead class="bg-primary text-light">
+          <tr>
+            <td>รหัสสินค้า</td>
+            <td>ชื่อสินค้า</td>
+            <td>ประเภทสินค้า</td>
+            <td>ราคาสินค้า</td>
+            <td>จำนวนสินค้า</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+        {% for p in product %}
+          <tr>
+            <td width='10'>{{ p.id }}</td>
+            <td width='150'>{{ p.name }}</td>
+            <td width='150'>{{ p.type.type_name }}</td>
+            <td width='150'>{{ p.price|stringformat:".2f" }} บาท</td>
+            <td width='150'>{{ p.stock }}</td>
+            <td width='20'>
+              <a href="{% url 'pup' product_id=p.id %}">
+                <div class="btn btn-info col">อัพเดท</div>
+              </a>
+            </td>
+            <td width='20'>
+              <a href="{% url 'del_product' product_id=p.id %}">
+                <div class="btn btn-danger col">ลบสินค้า</div>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+<style>
+  .scr {
+    height: 60vh;
+    overflow: scroll;
+    overflow-x: hidden;
+  }
+</style>
 {% endblock %}

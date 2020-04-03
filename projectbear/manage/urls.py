@@ -18,4 +18,8 @@ from django.urls import path,include
 from . import views
 urlpatterns = [
     path('manage/', views.manage, name='manage'),
+    path('product/',views.add_product, name='addpd'),
+    path('product/add',views.add_to_database,name='adddb'),
+    path('product/delete/<int:product_id>/',views.delete_product,name='del_product'),
+    path('product/<int:product_id>',views.product_update,name='pup'),
 ]
