@@ -38,7 +38,7 @@
           <label>ประเภทสินค้า :</label>
           <select name="txt_1" class="form-control col-4">
             {% for t in type %}
-            <option value="{{t.id}}">{{t.name}}</option>
+            <option value="{{t.id}}">{{t.type_name}}</option>
             {% endfor %}
           </select>
           {% endif %}
