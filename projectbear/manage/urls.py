@@ -17,5 +17,5 @@ from django.contrib import admin
 from django.urls import path,include
 from . import views
 urlpatterns = [
-    path('queue/', views.queue, name='queue'),
+    path('manage/', views.manage, name='manage'),
 ]

@@ -4,25 +4,29 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from django.contrib import messages
+from main.models import *
 # Create your views here.
 @login_required
 def index(request):
-    if request.user.username == 'admin':
-        # return HttpResponse('ป้า')
-        return render(request, 'manage/queue.html')
-    else:
-        # return HttpResponse('ลูกค้า %s' %(request.user.username))
-        context={
-            'user' : request.user.username
-        }
-        return render(request, 'main/index.html', context=context)
+    product = Product.objects.all()
+    type = Type.objects.all()
+    search = request.GET.get('search','')
+    searchtype = request.GET.get('sel','')
+    if search:
+        product = product.filter(name__icontains=search)
+    if searchtype > '0':
+        product = product.filter(type_id=searchtype)
+    context = {
+        'product':product,
+        'type':type,
+    }
+    return render(request, 'main/index.html', context=context)
 def my_login(request):
     context = {}
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request,username=username,password=password)
-
         if user:
             login(request,user)
             return redirect('index')
