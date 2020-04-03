@@ -28,5 +28,4 @@ urlpatterns = [
     path('manage/',include('manage.urls')),
     path('report/',include('report.urls')),
 ]
-urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

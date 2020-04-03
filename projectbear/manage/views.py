@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.forms import formset_factory
 from main.models import Type, Product
 
 # Create your views here.
@@ -32,20 +33,22 @@ def add_product(request):
 def add_to_database(request):
     page_title = 'Add Product'
     type = Type.objects.all()
-    number = request.POST.get('txt_1')
-    notice = ''
     create= ''
-    try:
-        create = Product.objects.create(
-                type=Type.objects.get(pk=number),
-                name=request.POST.get('txt_2'),
-                stock=request.POST.get('txt_3'),
-                price=request.POST.get('txt_4'),
-                picture=request.POST.get('txt_5'),
-            )
-        notice = 'การเพิ่มสินค้าของคุณสำเร็จแล้ว -> หมายเลขสินค้าที่ %s' % (create.id)
-    except ValueError:
-        notice = 'โอ๊ะ! ประเภทข้อมูลผิดพลาด'
+    notice = ''
+    if request.method == 'POST' and request.FILES['picture']:
+        number = request.POST.get('txt_1')
+        try:
+            create = Product(
+                    type=Type.objects.get(pk=number),
+                    name=request.POST.get('txt_2'),
+                    stock=request.POST.get('txt_3'),
+                    price=request.POST.get('txt_4'),
+                    picture=request.FILES['picture'],
+                )
+            create.save()
+            notice = 'การเพิ่มสินค้าของคุณสำเร็จแล้ว -> หมายเลขสินค้าที่ %s' % (create.id)
+        except ValueError:
+            notice = 'โอ๊ะ! ประเภทข้อมูลผิดพลาด'
     context = {
         'create':create,
         'notice':notice,
@@ -66,10 +69,11 @@ def product_update(request,product_id):
     product = Product.objects.get(pk=product_id)
     type = Type.objects.all()
     notice = ''
-    if request.method == 'POST':
+    if request.method == 'POST' and request.FILES['picture']:
         product.name = request.POST.get('txt_2')
         product.type_id = request.POST.get('txt')
         product.description = request.POST.get('txt_3')
+        product.picture = request.FILES['picture']
         try:
             product.price = request.POST.get('txt_4')
             product.save()

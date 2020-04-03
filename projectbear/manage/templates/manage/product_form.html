@@ -2,7 +2,7 @@
 {% block content %}
  <div class="container">
   {% if product.id %}
-  <form method="POST" action="{% url 'pup' product_id=num %}">
+  <form method="POST" action="{% url 'pup' product_id=num %}" enctype="multipart/form-data">
     <h2>อัพเดทสินค้าของหมายเลข - {{num}}</h2>
     <hr>
     {% if notice %}
@@ -12,7 +12,7 @@
     {% endif %}
 
     {% else %}
-    <form method="POST" action="{% url 'adddb' %}">
+    <form method="POST" action="{% url 'adddb' %}" enctype="multipart/form-data">
       <h2>เพิ่มสินค้า</h2>
       <hr>
       {% if notice %}
@@ -57,7 +57,7 @@
         </div><br>
         <div class="col">
           <label>รูป :</label>
-          <input type="file" name="txt_5" accept="image/*" required>
+          <input type="file" name="picture" id="picture" value="{{picture}}" required>
         </div>
       </div>
       <input type="submit" class="btn btn-success" value="ตกลง">
