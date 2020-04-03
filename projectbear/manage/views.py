@@ -41,6 +41,7 @@ def add_to_database(request):
                 name=request.POST.get('txt_2'),
                 stock=request.POST.get('txt_3'),
                 price=request.POST.get('txt_4'),
+                picture=request.POST.get('txt_5'),
             )
         notice = 'การเพิ่มสินค้าของคุณสำเร็จแล้ว -> หมายเลขสินค้าที่ %s' % (create.id)
     except ValueError:
