@@ -30,7 +30,7 @@
           <select name="txt" class="form-control col-4">
 
             {% for t in type %}
-            <option value="{{t.id}}" {% if product.type.id == t.id %} selected {% endif %}>{{t.name}}</option>
+            <option value="{{t.id}}" {% if product.type.id == t.id %} selected {% endif %}>{{t.type_name}}</option>
             {% endfor %}
 
           </select>
