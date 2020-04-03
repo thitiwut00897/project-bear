@@ -24,9 +24,10 @@
     </form>
     <table class="table text-right">
     </table>
-    <div class="card-group col-6">
+    <div class="card-group">
+        <div class="row">
         {% for p in product %}
-            <div class="card">
+            <div class="card col-3">
                 <img class="card-img-top" src="{{ p.picture.url }}" alt="" style="max-width:50%;"> 
                 <div class="card-body">
                     <h5 class="card-title">{{ p.name }}</h5>
@@ -38,5 +39,6 @@
                 </div>
             </div>
         {% endfor %}
+        </div>
     </div>   
 {% endblock %}

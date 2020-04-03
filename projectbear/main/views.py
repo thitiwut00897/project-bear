@@ -10,16 +10,16 @@ from main.models import *
 def index(request):
     product = Product.objects.all()
     type = Type.objects.all()
-    search = request.GET.get('search')
-    searchtype = request.GET.get('sel')
-    print(search)
+    search = request.GET.get('search','')
+    searchtype = request.GET.get('sel','')
+    print(searchtype)
     if search:
         product = product.filter(name__icontains=search)
-    if searchtype:
+    if searchtype > '0':
         product = product.filter(type_id=searchtype)
     context = {
         'product':product,
-        'type':type
+        'type':type,
     }
     return render(request, 'main/index.html', context=context)
 def my_login(request):
