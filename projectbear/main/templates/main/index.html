@@ -23,31 +23,20 @@
         </div>
     </form>
     <table class="table text-right">
-        <thead class="bg-primary text-light">
-            <tr>
-                <td width='90'>ชื่อสินค้า</td>
-                <td width='130'>ประเภทสินค้า</td>
-                <td width='80'>ราคา</td>
-                <td width='100'>Add</td>
-                <td width='20'></td>
-            </tr>
-        </thead>
     </table>
-    <div class="tproduct">
-        <table class="table text-center table-striped">
-            {% for p in product %}
-                <tr>
-                    <td><img src="{{ p.picture.url }}" style="max-width: 50%;"></td>
-                    <td>{{ p.name }}</td>
-                    <td>{{ p.type.name }}</td>
-                    <td>{{ p.price|stringformat:".2f" }} บาท</td>
-                    <td>
-                      <a href="#">
+    <div class="card-group col-6">
+        {% for p in product %}
+            <div class="card">
+                <img class="card-img-top" src="{{ p.picture.url }}" alt="" style="max-width:50%;"> 
+                <div class="card-body">
+                    <h5 class="card-title">{{ p.name }}</h5>
+                    <p class="card-text">{{ p.type.type_name }}</p>
+                    <p class="card-text">{{ p.price|stringformat:".2f" }} บาท</p>
+                    <a href="#"><p class="card-text">
                         <div class="btn btn-primary col">เพิ่ม</div>
-                      </a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
+                    </p></a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>   
 {% endblock %}
