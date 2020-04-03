@@ -6,5 +6,5 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 
 # Create your views here.
-def queue(request):
-    return render(request, 'manage/queue.html') 
+def manage(request):
+    return render(request, 'manage/manage.html') 

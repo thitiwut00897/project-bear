@@ -1,4 +1,53 @@
-{% extends 'basecus.html' %}
+{% extends 'basesell.html' %}
 {% block content %}
-<p>testชื้่อผู้ใช้ : {{ user }}</p>
+    <form method="GET" action="{% url 'index' %}">
+        <div class="row">
+            <div class="col-sm-3">
+                <p class="text-center">ค้นหาสินค้า</p>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" name="search" id="search" value="{{search}}" placeholder="ค้นหา"
+                      class="form-control col">
+            </div>
+            <div class="col-sm-3">
+                <select name="sel" id="{{sel}}" class="form-control col">
+                    <option value="0">ทั้งหมด</option>
+                    {% for t in type %}
+                        <option value="{{t.id}}">{{t.type_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary col">ค้นหา</button>
+            </div>
+        </div>
+    </form>
+    <table class="table text-right">
+        <thead class="bg-primary text-light">
+            <tr>
+                <td width='90'>ชื่อสินค้า</td>
+                <td width='130'>ประเภทสินค้า</td>
+                <td width='80'>ราคา</td>
+                <td width='100'>Add</td>
+                <td width='20'></td>
+            </tr>
+        </thead>
+    </table>
+    <div class="tproduct">
+        <table class="table text-center table-striped">
+            {% for p in product %}
+                <tr>
+                    <td><img src="{{ p.picture.url }}" style="max-width: 50%;"></td>
+                    <td>{{ p.name }}</td>
+                    <td>{{ p.type.name }}</td>
+                    <td>{{ p.price|stringformat:".2f" }} บาท</td>
+                    <td>
+                      <a href="#">
+                        <div class="btn btn-primary col">เพิ่ม</div>
+                      </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}

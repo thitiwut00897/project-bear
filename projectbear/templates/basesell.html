@@ -57,18 +57,23 @@
         <a class="navbar-brand" href="#"><img src="{% static 'payment-terminal.png'%}"> ชื่อเว็บ</a>
          <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'index' %}">หน้าหลัก</a>
+            </li>
+            {% if request.user.is_staff %}
                 <li class="nav-item">
-                    <a class="nav-link">สั่งของฝั่งแม่ค้า</a>
+                    <a class="nav-link">ตรวจสอบสลิป/ยืนยัน</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">สถาะนะตรวจสอบสลิป/ยืนยัน</a>
+                    <a class="nav-link" href="{% url 'manage'%}">จัดการคลังสินค้า</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">จัดการคลังสินค้า</a>
+                    <a class="nav-link">จัดการคิว</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">เช็คยอดขาย</a>
+                    <a class="nav-link">สรุปยอดขาย</a>
                 </li>
+            {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">logout</a>
                 </li>
