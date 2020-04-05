@@ -19,4 +19,5 @@ from . import views
 urlpatterns = [
     path('',views.index,name='index'),
     path('basket/',views.basket,name='basket'),
+    path('add/<int:product_id>',views.addtobasket,name='addtobasket')
 ]

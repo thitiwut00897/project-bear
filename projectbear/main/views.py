@@ -67,6 +67,36 @@ def my_register(request):
             messages.info(request,'รหัสผ่านไม่ตรงกัน')
             return redirect('register')
     return render(request,template_name='register_page.html')
-
+@login_required
 def basket(request):
-    return render(request, 'main/basket.html')
+    basket = Order_items.objects.all()
+    context={
+        'basket':basket
+    }
+    return render(request, 'main/basket.html',context=context)
+def addtobasket(request,product_id):
+    product = Product.objects.get(pk=product_id)
+    item = Order_items.objects.all()
+    unit = 1
+    if item:
+        for i in item:
+            if i.item_no_id == product_id:
+                item = Order_items.objects.get(id=i.id)
+                item.unit += 1
+                item.item_price = item.unit*product.price
+                break
+            else:
+                item = Order_items()
+                item.item_no_id= product.id
+                item.price = product.price
+                item.unit = unit
+                item.item_price = product.price
+    else:
+        item = Order_items()
+        item.item_no_id = product.id
+        item.price = product.price
+        item.unit = unit
+        item.item_price = product.price
+    item.save()
+    messages.info(request,'เพิ่มสินค้าลงตะกร้าแล้ว')
+    return redirect('index')

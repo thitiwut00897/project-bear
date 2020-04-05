@@ -21,9 +21,13 @@
                 <button type="submit" class="btn btn-primary col">ค้นหา</button>
             </div>
         </div>
-    </form>
-    <table class="table text-right">
-    </table>
+    </form><br>
+    {% for m in messages %}
+        <div class="alert alert-info" role="alert">
+            {{m}}
+        </div>
+    {% endfor %}
+    <hr>
     <div class="card-group">
         <div class="row">
         {% for p in product %}
@@ -34,7 +38,7 @@
                     <h5 class="card-title">{{ p.name }}</h5>
                     <p class="card-text">{{ p.type.type_name }}</p>
                     <p class="card-text">{{ p.price|stringformat:".2f" }} บาท</p>
-                    <a href="#"><p class="card-text">
+                    <a href="{% url 'addtobasket' product_id=p.id%}"><p class="card-text">
                         <div class="btn btn-primary col">เพิ่ม</div>
                     </p></a>
                 </div>
