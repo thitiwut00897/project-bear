@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{page_title}}</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base2.css'%}">
+
+    <style>
+        header[role="banner"] {
+            #logo-main {
+                display: block;
+                margin: 20px auto;
+            }
+        }
+
+        #navbar-primary.navbar-default {
+            background: transparent;
+            border: none;
+
+            .navbar-nav {
+                width: 100%;
+                text-align: center;
+
+                >li {
+                    display: inline-block;
+                    float: none;
+
+                    >a {
+                        padding-left: 30px;
+                        padding-right: 30px;
+                    }
+                }
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+		<div class="container">
+			<a class="navbar-brand text-white" href="{% url 'index' %}"><i class="fa fa-graduation-cap fa-lg mr-2"></i><img src="{% static 'payment-terminal.png'%}">Bear</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nvbCollapse" aria-controls="nvbCollapse">
+				<span class="navbar-toggler-icon"><img src="{% static 'payment-terminal.png'%}"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="nvbCollapse">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active pl-1">
+						<a class="nav-link" href="{% url 'index' %}"><i class="fa fa-home fa-fw mr-1"></i>หน้าหลัก</a>
+					</li>
+					<li class="nav-item pl-1">
+						<a class="nav-link" href="{% url 'basket' %}"><i class="fa fa-th-list fa-fw mr-1"></i>ตะกร้าสินค้า</a>
+					</li>
+                    {% if request.user.is_staff %}
+                        <li class="nav-item pl-1">
+                            <a class="nav-link" href="#"><i class="fa fa-info-circle fa-fw mr-1"></i>ตรวจสอบสลิป/ยืนยัน</a>
+                        </li>
+                        <li class="nav-item pl-1">
+                            <a class="nav-link" href="#"><i class="fa fa-phone fa-fw fa-rotate-180 mr-1"></i>คิวสั้งซื้อ</a>
+                        </li>
+                        {% comment %} <li class="nav-item pl-1">
+                            <a class="nav-link" href="#"><i class="fa fa-user-plus fa-fw mr-1"></i>สถาะนะตรวจสอบสลิป/ยืนยัน</a>
+                        </li> {% endcomment %}
+                        <li class="nav-item pl-1">
+                            <a class="nav-link" href="{% url 'manage' %}"><i class="fa fa-user-plus fa-fw mr-1"></i>จัดการสินค้า</a>
+                        </li>
+                        <li class="nav-item pl-1">
+                            <a class="nav-link" href="#"><i class="fa fa-user-plus fa-fw mr-1"></i>สรุปยอดขาย</a>
+                        </li>
+                    {% endif %}
+					<li class="nav-item pl-1">
+						<a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-sign-in fa-fw mr-1"></i>logout</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+    <br>
+    <div class="container">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</body>
+
+</html>

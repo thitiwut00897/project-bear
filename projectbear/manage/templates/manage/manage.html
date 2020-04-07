@@ -1,4 +1,4 @@
-{% extends 'basesell.html' %}
+{% extends 'base.html' %}
 {% block content %}
 <body>
 {{text}}
@@ -18,7 +18,7 @@
           <select name="sel" id="" class="form-control col">
             <option value="0">ทั้งหมด</option>
             {% for t in type %}
-            <option value="{{t.id}}">{{t.name}}</option>
+            <option value="{{t.id}}">{{t.type_name}}</option>
             {% endfor %}
           </select>
         </div>
@@ -39,11 +39,12 @@
         </div> {% endcomment %}
       </div><br>
     </form>
-    <div class="scr">
+    
+    {% comment %} <div class="scr"> {% endcomment %}
       <table class="table table-bordered-primary text-center">
-        <thead class="bg-primary text-light">
+        <thead class="bg-dark text-light">
           <tr>
-            <td>รหัสสินค้า</td>
+            <td>รหัส</td>
             <td>ชื่อสินค้า</td>
             <td>ประเภทสินค้า</td>
             <td>ราคาสินค้า</td>
@@ -62,7 +63,7 @@
             <td width='150'>{{ p.stock }}</td>
             <td width='20'>
               <a href="{% url 'pup' product_id=p.id %}">
-                <div class="btn btn-info col">อัพเดท</div>
+                <div class="btn btn-warning col">อัพเดท</div>
               </a>
             </td>
             <td width='20'>
@@ -74,7 +75,7 @@
           {% endfor %}
         </tbody>
       </table>
-    </div>
+    {% comment %} </div> {% endcomment %}
   </div>
 </body>
 <style>

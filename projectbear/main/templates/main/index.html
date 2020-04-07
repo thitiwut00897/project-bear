@@ -1,4 +1,4 @@
-{% extends 'basesell.html' %}
+{% extends 'base.html' %}
 {% block content %}
     <form method="GET" action="{% url 'index' %}">
         <div class="row">
@@ -38,7 +38,7 @@
                     <p class="card-text">{{ p.type.type_name }}</p>
                     <p class="card-text">{{ p.price|stringformat:".2f" }} บาท</p>
                     <a href="{% url 'addtobasket' product_id=p.id%}"><p class="card-text">
-                        <div class="btn btn-primary col">เพิ่ม</div>
+                        <div class="btn btn-success col">เพิ่ม</div>
                     </p></a>
                 </div>
             </div>
