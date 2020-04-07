@@ -36,6 +36,8 @@ def my_login(request):
             context['error'] = 'ชื่อผู้ใช้ หรือ รหัสผ่านผิด โปรดลองอีกครั้ง'
     return render(request,'login_page.html',context=context)
 def my_logout(request):
+    basket = Order_items.objects.all()
+    basket.delete()
     logout(request)
     return redirect('login')
 def my_register(request):
@@ -100,3 +102,8 @@ def addtobasket(request,product_id):
     item.save()
     messages.info(request,'เพิ่มสินค้าลงตะกร้าแล้ว')
     return redirect('index')
+def deletetobasket(request,basket_id):
+    item = Order_items.objects.get(pk=basket_id)
+    item.delete()
+    messages.info(request,'ลบสินค้าในตะกร้าแล้ว')
+    return redirect('basket')

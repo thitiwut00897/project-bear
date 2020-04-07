@@ -1,6 +1,11 @@
 {% extends 'basesell.html' %}
 {% block content %}
-    <h2>ตระกร้า</h2>
+    <h2>ตะกร้า</h2>
+    {% for m in messages %}
+        <div class="alert alert-info" role="alert">
+            {{m}}
+        </div>
+    {% endfor %}
     <div class='container'>
         <table class='table'>
             <tr>
@@ -17,8 +22,8 @@
                 <td>{{c.item_no.price}}</td>
                 <td>{{c.item_price}}</td>
                 <td>
-                <a>
-                    <div class='btn btn-danger'>Delete</div>
+                <a href="{% url 'deletetobasket' basket_id=c.id %}">
+                    <div class='btn btn-danger'>ลบ</div>
                 </a>
                 </td>
             </tr>
