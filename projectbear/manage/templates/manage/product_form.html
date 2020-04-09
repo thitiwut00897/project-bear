@@ -26,6 +26,7 @@
       <div class="form-group">
         <div class="col">
           {% if product.id %}
+          <img src="{{product.picture.url}}" height='100' width='100'><br>
           <label>ประเภทสินค้า :</label>
           <select name="txt" class="form-control col-4">
 
@@ -55,10 +56,12 @@
           <label>ราคาของสินค้า :</label>
           <input type="text" class="form-control col-2" name="txt_4" value="{{product.price}}" required>
         </div><br>
+        {% if not product.id %}
         <div class="col">
           <label>รูป :</label>
           <input type="file" name="picture" id="picture" value="{{picture}}" required>
         </div>
+        {% endif %}
       </div>
       <input type="submit" class="btn btn-success" value="ตกลง">
     </form><br>

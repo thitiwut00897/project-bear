@@ -20,5 +20,6 @@ urlpatterns = [
     path('',views.index,name='index'),
     path('basket/',views.basket,name='basket'),
     path('add/<int:product_id>',views.addtobasket,name='addtobasket'),
-    path('delete/<int:basket_id>',views.deletetobasket,name='deletetobasket')
+    path('delete/<int:basket_id>',views.deletetobasket,name='deletetobasket'),
+    path('payment/',views.payment,name='payment')
 ]

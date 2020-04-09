@@ -1,33 +1,49 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>ตะกร้า</h2>
+<style>
+    .table-area{
+        height: 55vh;
+        overflow-y: scroll;
+    }
+    .pad{
+        margin-left:700px;
+    }
+</style>
+    <h2>ตะกร้าสินค้า</h2><br>
     {% for m in messages %}
         <div class="alert alert-info" role="alert">
             {{m}}
         </div>
     {% endfor %}
     <div class='container'>
-        <table class='table'>
-            <tr>
-                <td>จำนวน</td>
-                <td>ชื่อสินค้า</td>
-                <td>ราคา</td>
-                <td>ราคารวม</td>
-                <td></td>
-            </tr>
-            {% for c in basket %}
-            <tr>
-                <td>{{c.unit}}</td>
-                <td>{{c.item_no.name}}</td>
-                <td>{{c.item_no.price}}</td>
-                <td>{{c.item_price}}</td>
-                <td>
-                <a href="{% url 'deletetobasket' basket_id=c.id %}">
-                    <div class='btn btn-danger'>ลบ</div>
-                </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
+        <div class='table-area'>
+            <table class='table'>
+                <tr>
+                    <td>จำนวน</td>
+                    <td>ชื่อสินค้า</td>
+                    <td>ราคา</td>
+                    <td>ราคารวม</td>
+                    <td></td>
+                </tr>
+                {% for c in basket %}
+                <tr>
+                    <td>{{c.unit}}</td>
+                    <td>{{c.item_no.name}}</td>
+                    <td>{{c.item_no.price}}</td>
+                    <td>{{c.item_price}}</td>
+                    <td>
+                    <a href="{% url 'deletetobasket' basket_id=c.id %}">
+                        <div class='btn btn-danger'>ลบ</div>
+                    </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <hr>
+        <h3>ราคารวมทั้งหมด :<b class='pad'> {{total|stringformat:".2f"}} บาท</b></h3>
+        <a href='{% url 'payment' %}'>
+            <div class='btn btn-primary col'>ชำระเงิน</div>
+        </a>
     </div>
 {% endblock %}

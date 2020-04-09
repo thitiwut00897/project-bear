@@ -6,24 +6,23 @@
     <h2>จัดการสินค้า</h2>
     <hr>
     <form method="GET" action="{% url 'manage' %}">
-      {% csrf_token %}
       <div class="row">
         <div class="col-sm-2">
           <label>ค้นหาสินค้า :</label>
         </div>
         <div class="col-sm-4">
-          <input type="text" name="search" value="{{search}}" placeholder="ค้นหา" class="form-control col">
+          <input type="text" name="search" value="{{searchtxt}}" placeholder="ค้นหา" class="form-control col">
         </div>
         <div class="col-sm-4">
           <select name="sel" id="" class="form-control col">
             <option value="0">ทั้งหมด</option>
-            {% for t in type %}
-            <option value="{{t.id}}">{{t.type_name}}</option>
-            {% endfor %}
+              {% for t in type %}
+                <option value="{{t.id}}">{{t.type_name}}</option>
+              {% endfor %}
           </select>
         </div>
         <div class="col">
-          <input type="submit" value="Search" class="btn btn-primary">
+          <input type="submit" value="ค้นหา" class="btn btn-primary">
         </div>
       </div><br>
       <div class="row">
@@ -32,13 +31,8 @@
             <div class="btn btn-outline-success col">เพิ่มสินค้า</div>
           </a>
         </div>
-        {% comment %} <div class="col">
-          <a href="{% url 'edittype'%}">
-            <div class="btn btn-outline-secondary col">จัดการประเภทของสินค้า</div>
-          </a>
-        </div> {% endcomment %}
-      </div><br>
-    </form>
+      </div>
+    </form><br>
     
     {% comment %} <div class="scr"> {% endcomment %}
       <table class="table table-bordered-primary text-center">

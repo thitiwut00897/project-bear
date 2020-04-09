@@ -51,11 +51,12 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg sticky-top">
 		<div class="container">
-			<a class="navbar-brand text-white" href="{% url 'index' %}"><i class="fa fa-graduation-cap fa-lg mr-2"></i><img src="{% static 'payment-terminal.png'%}">Bear</a>
+			<a class="navbar-brand text-white" href="{% url 'index' %}"><i class="fa fa-graduation-cap fa-lg mr-2"></i><img src="{% static 'payment-terminal.png'%}"> {{request.user.username}}
+            ({{request.user.first_name}} {{request.user.last_name}})</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nvbCollapse" aria-controls="nvbCollapse">
-				<span class="navbar-toggler-icon"><img src="{% static 'payment-terminal.png'%}"></span>
+				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="nvbCollapse">
 				<ul class="navbar-nav ml-auto">

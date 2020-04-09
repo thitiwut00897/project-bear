@@ -72,8 +72,12 @@ def my_register(request):
 @login_required
 def basket(request):
     basket = Order_items.objects.all()
+    total = 0
+    for i in basket:
+        total += i.item_price
     context={
-        'basket':basket
+        'basket':basket,
+        'total': total
     }
     return render(request, 'main/basket.html',context=context)
 def addtobasket(request,product_id):
@@ -107,3 +111,5 @@ def deletetobasket(request,basket_id):
     item.delete()
     messages.info(request,'ลบสินค้าในตะกร้าแล้ว')
     return redirect('basket')
+def payment(request):
+    return HttpResponse('Payment Page.')

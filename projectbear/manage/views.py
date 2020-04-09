@@ -8,10 +8,20 @@ from django.forms import formset_factory
 from main.models import Type, Product
 
 # Create your views here.
+@login_required
 def manage(request):
     product = Product.objects.all()
+    type = Type.objects.all()
+    searchtype = request.GET.get('sel','')
+    searchtxt = request.GET.get('search','')
+    if searchtxt:
+        product = product.filter(name__icontains=searchtxt)
+    if searchtype > '0':
+        product = product.filter(type_id=searchtype)
     context = {
-        'product' : product
+        'product' : product,
+        'type' : type,
+        'searchtxt' : searchtxt
     }
     return render(request, 'manage/manage.html', context=context)
 
@@ -69,11 +79,10 @@ def product_update(request,product_id):
     product = Product.objects.get(pk=product_id)
     type = Type.objects.all()
     notice = ''
-    if request.method == 'POST' and request.FILES['picture']:
+    if request.method == 'POST':
         product.name = request.POST.get('txt_2')
         product.type_id = request.POST.get('txt')
         product.description = request.POST.get('txt_3')
-        product.picture = request.FILES['picture']
         try:
             product.price = request.POST.get('txt_4')
             product.save()
