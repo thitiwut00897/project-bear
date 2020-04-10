@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth import authenticate,login,logout,update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from main.models import *
@@ -68,25 +69,23 @@ def my_register(request):
             messages.info(request,'รหัสผ่านไม่ตรงกัน')
             return redirect('register')
     return render(request,template_name='register_page.html')
-
+# เปลี่ยนรหัสผ่าน
+@login_required
 def change_password(request):
-    usernow = request.user.id
-    user = User.objects.get(pk=usernow)
-    notice = ''
-    if request.method == 'POST':
-        oldpass = request.POST.get('oldpassword')
-        newpass = request.POST.get('newpassword')
-        if user.password == oldpass:
-            user.password = newpass
-            user.save()
-            notice = 'บันทึกข้อมูลเรียบร้อย'
-        else:
-            notice = 'รหัสเก่าไม่ถูกต้อง'
-    context ={
-        'user':user,
-        'notice': notice
-    }
-    return render(request,template_name='change_page.html', context=context)
+    page_title = 'Change Password'
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user,request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request,user)
+            return redirect('login')
+    else:
+        form = PasswordChangeForm(request.user)
+    context={
+        'form':form ,
+        'page_title':page_title
+        }
+    return render(request,template_name='change_page.html',context=context)
 
 @login_required
 def basket(request):
