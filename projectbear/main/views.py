@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate,login,logout,update_session_auth_ha
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib import messages
+from main.forms import MyProfile
 from main.models import *
 # Create your views here.
 @login_required
@@ -34,7 +35,7 @@ def my_login(request):
         else:
             context['username'] = username
             context['password'] = password
-            context['error'] = 'ชื่อผู้ใช้ หรือ รหัสผ่านผิด โปรดลองอีกครั้ง'
+            messages.info(request,'ชื่อผู้ใช้ หรือ รหัสผ่านผิด โปรดลองอีกครั้ง')
     return render(request,'login_page.html',context=context)
 def my_logout(request):
     basket = Order_items.objects.all()
@@ -78,6 +79,7 @@ def change_password(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request,user)
+            messages.info(request,'รหัสผ่านถูกเปลี่ยนแล้ว')
             return redirect('login')
     else:
         form = PasswordChangeForm(request.user)
@@ -85,7 +87,7 @@ def change_password(request):
         'form':form ,
         'page_title':page_title
         }
-    return render(request,template_name='change_page.html',context=context)
+    return render(request,template_name='changepw_page.html',context=context)
 
 @login_required
 def basket(request):
@@ -131,3 +133,15 @@ def deletetobasket(request,basket_id):
     return redirect('basket')
 def payment(request):
     return HttpResponse('Payment Page.')
+def my_profile(request):
+    if request.method == 'POST':
+        form = MyProfile(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.info(request,'บันทึกข้อมูลแล้ว')
+    else:
+        form = MyProfile(instance=request.user)
+    context={
+        'form':form
+    }
+    return render(request,'profile.html',context=context)

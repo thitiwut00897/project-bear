@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<script>
+
+</script>
+    <div class="container">
+    
+        <h2>เปลี่ยนรหัสผ่าน</h2>
+        <hr>
+        <form method="POST">
+            {% csrf_token %}
+            {{form.as_p}}<br><br>
+            <input type="submit" value="เปลี่ยนรหัสผ่าน" class="btn btn-outline-success col">
+        </form>
+    </div>
+{% endblock %}

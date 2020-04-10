@@ -88,9 +88,10 @@
                             ตั้งค่า
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{% url 'changepassword' %}">chang password</a>
+                        <a class="dropdown-item" href="{% url 'myprofile' %}">โปรไฟล์</a>
+                        <a class="dropdown-item" href="{% url 'changepassword' %}">เปลี่ยนรหัสผ่าน</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        <a class="dropdown-item" href="{% url 'logout' %}">ออกจากระบบ</a>
                         </div>
                     </li>
 					{% comment %} <li class="nav-item pl-1">
