@@ -83,9 +83,19 @@
                             <a class="nav-link" href="#"><i class="fa fa-user-plus fa-fw mr-1"></i>สรุปยอดขาย</a>
                         </li>
                     {% endif %}
-					<li class="nav-item pl-1">
+                    <li class="nav-item dropdown pl-1">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            ตั้งค่า
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'changepassword' %}">chang password</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        </div>
+                    </li>
+					{% comment %} <li class="nav-item pl-1">
 						<a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-sign-in fa-fw mr-1"></i>logout</a>
-					</li>
+					</li> {% endcomment %}
 				</ul>
 			</div>
 		</div>

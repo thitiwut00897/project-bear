@@ -64,11 +64,30 @@ def my_register(request):
                     password = password1,
                 )
                 user.save()
-                return redirect('login')
         else:
             messages.info(request,'รหัสผ่านไม่ตรงกัน')
             return redirect('register')
     return render(request,template_name='register_page.html')
+
+def change_password(request):
+    usernow = request.user.id
+    user = User.objects.get(pk=usernow)
+    notice = ''
+    if request.method == 'POST':
+        oldpass = request.POST.get('oldpassword')
+        newpass = request.POST.get('newpassword')
+        if user.password == oldpass:
+            user.password = newpass
+            user.save()
+            notice = 'บันทึกข้อมูลเรียบร้อย'
+        else:
+            notice = 'รหัสเก่าไม่ถูกต้อง'
+    context ={
+        'user':user,
+        'notice': notice
+    }
+    return render(request,template_name='change_page.html', context=context)
+
 @login_required
 def basket(request):
     basket = Order_items.objects.all()
