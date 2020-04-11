@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.forms import formset_factory
 from main.models import Type, Product
+from main.forms import ProductForm
 
 # Create your views here.
 @login_required
@@ -25,16 +26,22 @@ def manage(request):
     }
     return render(request, 'manage/manage.html', context=context)
 
-# def manageproduct(request):
-#     return
-
 # หน้าเพิ่มสินค้า
 @login_required
 def add_product(request):
     page_title = 'Add Product'
-    type = Type.objects.all()
+    if request.method == 'GET':
+        form = ProductForm()
+    else:
+        form = ProductForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'เพิ่มสินค้าสำเร็จแล้ว')
+            return redirect('index')
+        else:
+            messages.error(request,'Try Again')
     context = {
-        'type':type,
+        'form':form,
         'page_title':page_title
     }
     return render(request,'manage/product_form.html',context=context)
@@ -96,5 +103,5 @@ def product_update(request,product_id):
         'notice':notice,
         'page_title':page_title
     }
-    return render(request,'manage/product_form.html',context=context)
+    return render(request,'manage/product_form2.html',context=context)
 

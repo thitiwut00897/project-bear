@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from main.models import Product
 
 class UpdateProfile(forms.ModelForm):
     username = forms.CharField(required=True)
@@ -10,3 +11,9 @@ class UpdateProfile(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'first_name', 'last_name')
+class ProductForm(forms.ModelForm):
+    price = forms.FloatField(required=True)
+    picture = forms.ImageField(label='Picture',required=True)
+    class Meta:
+        model = Product
+        fields = "__all__"

@@ -9,6 +9,7 @@ class Type(models.Model):
 class Product(models.Model):
     type = models.ForeignKey(Type, on_delete=models.PROTECT,null=True)
     name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255,null=True)
     price = models.FloatField()
     stock = models.IntegerField()
     picture = models.ImageField(upload_to='product_pic',null=True,blank=True)
