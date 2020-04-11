@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate,login,logout,update_session_auth_ha
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib import messages
-from main.forms import UpdateProfile
+from main.forms import UpdateProfile,ProfileForm
 from main.models import *
 # Create your views here.
 @login_required
@@ -50,6 +50,7 @@ def my_register(request):
         email = request.POST.get('email','')
         password1 = request.POST.get('password1','')
         password2 = request.POST.get('password2','')
+        tel = request.POST.get('telephone','')
         if password1 == password2:
             if User.objects.filter(username=username).exists():
                 messages.info(request,'Username นี้มีคนใช้แล้ว')
@@ -65,7 +66,12 @@ def my_register(request):
                     email = email,
                     password = password1,
                 )
+                user2 = Profile.objects.create(
+                    user_id = user.id,
+                    tel = tel
+                )
                 user.save()
+                user2.save()
                 messages.success(request,'ลงทะเบียนเรียบร้อยแล้ว กรุณาเข้าสู่ระบบ')
                 return redirect('login')
         else:
@@ -137,14 +143,18 @@ def payment(request):
     return HttpResponse('Payment Page.')
 def update_profile(request):
     if request.method == 'POST':
-        form = UpdateProfile(request.POST,instance=request.user)
-        if form.is_valid():
-            form.save()
+        form1 = ProfileForm(request.POST,request.FILES,instance=request.user.profile)
+        form2 = UpdateProfile(request.POST,instance=request.user)
+        if form1.is_valid() and form2.is_valid():
+            form1.save()
+            form2.save()
             messages.info(request,'บันทึกข้อมูลแล้ว')
             return redirect('index')
     else:
-        form = UpdateProfile(instance=request.user)
+        form1 = ProfileForm(instance=request.user.profile)
+        form2 = UpdateProfile(instance=request.user)
     context={
-        'form':form
+        'form1':form1,
+        'form2':form2
     }
     return render(request,'update_profile.html',context=context)

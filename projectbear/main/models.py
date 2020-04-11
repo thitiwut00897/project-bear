@@ -1,6 +1,10 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
+class Profile(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    tel = models.CharField(max_length=10,null=True)
+    picture = models.ImageField(default='default_pic.png',upload_to='user',null=True,blank=True)
 class Type(models.Model):
     type_name = models.CharField(max_length=255)
     def __str__(self):

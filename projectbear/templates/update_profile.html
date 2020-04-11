@@ -8,10 +8,20 @@
             {{m}}
         </div>
         {% endfor %}
-        <form method="POST" action="{% url 'myprofile' %}">
-            {% csrf_token %}
-        {{form.as_p}}
-        <input type='submit' value='Save'>
-        </form>
+        <center>
+        <div class='row'>
+            <div class='col-5'>
+                <img src="{{user.profile.picture.url}}" width='70%'>
+            </div>
+            <div class='col-5'>
+                <form method="POST" action="{% url 'myprofile' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form2.as_p}}
+                {{form1.as_p}}
+                <input type='submit' value='Save' class='btn btn-success col'>
+                </form>
+            </div>
+        </div>
+        </center>
     </div>
 {% endblock %}

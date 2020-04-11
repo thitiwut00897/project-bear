@@ -1,6 +1,11 @@
 from django import forms
 from django.contrib.auth.models import User
-from main.models import Product
+from main.models import *
+class ProfileForm(forms.ModelForm):
+    picture = forms.ImageField()
+    class Meta:
+        model = Profile
+        fields = ('tel','picture')
 
 class UpdateProfile(forms.ModelForm):
     username = forms.CharField(required=True)
