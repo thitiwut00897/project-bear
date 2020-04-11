@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate,login,logout,update_session_auth_ha
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib import messages
-from main.forms import MyProfile
+from main.forms import UpdateProfile
 from main.models import *
 # Create your views here.
 @login_required
@@ -44,12 +44,12 @@ def my_logout(request):
     return redirect('login')
 def my_register(request):
     if request.method == 'POST':
-        username = request.POST['u_name']
-        firstname = request.POST['f_name']
-        lastname = request.POST['l_name']
-        email = request.POST['email']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
+        username = request.POST.get('u_name','')
+        firstname = request.POST.get('f_name','')
+        lastname = request.POST.get('l_name','')
+        email = request.POST.get('email','')
+        password1 = request.POST.get('password1','')
+        password2 = request.POST.get('password2','')
         if password1 == password2:
             if User.objects.filter(username=username).exists():
                 messages.info(request,'Username นี้มีคนใช้แล้ว')
@@ -66,6 +66,8 @@ def my_register(request):
                     password = password1,
                 )
                 user.save()
+                messages.success(request,'ลงทะเบียนเรียบร้อยแล้ว กรุณาเข้าสู่ระบบ')
+                return redirect('login')
         else:
             messages.info(request,'รหัสผ่านไม่ตรงกัน')
             return redirect('register')
@@ -133,15 +135,16 @@ def deletetobasket(request,basket_id):
     return redirect('basket')
 def payment(request):
     return HttpResponse('Payment Page.')
-def my_profile(request):
+def update_profile(request):
     if request.method == 'POST':
-        form = MyProfile(request.POST)
+        form = UpdateProfile(request.POST,instance=request.user)
         if form.is_valid():
             form.save()
             messages.info(request,'บันทึกข้อมูลแล้ว')
+            return redirect('index')
     else:
-        form = MyProfile(instance=request.user)
+        form = UpdateProfile(instance=request.user)
     context={
         'form':form
     }
-    return render(request,'profile.html',context=context)
+    return render(request,'update_profile.html',context=context)

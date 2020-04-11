@@ -25,7 +25,7 @@ urlpatterns = [
     path('logout/',my_logout,name='logout'),
     path('register/',my_register,name='register'),
     path('changepassword/',change_password,name='changepassword'),
-    path('profile/',my_profile,name='myprofile'),
+    path('updateprofile/',update_profile,name='myprofile'),
     path('',include('main.urls')),
     path('manage/',include('manage.urls')),
     path('report/',include('report.urls')),
