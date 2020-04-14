@@ -5,6 +5,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     tel = models.CharField(max_length=10,null=True)
     picture = models.ImageField(default='default_pic.png',upload_to='user',null=True,blank=True)
+
 class Type(models.Model):
     type_name = models.CharField(max_length=255)
     def __str__(self):
@@ -34,3 +35,5 @@ class Order_Products(models.Model):
 class Payment(models.Model):
     pay_time = models.DateTimeField(auto_now=True)
     pay_price = models.FloatField()
+    pay_name = models.CharField(max_length=255)
+    pay_file = models.ImageField

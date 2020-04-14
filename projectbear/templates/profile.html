@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <h2>โปรไฟล์</h2>
+        <hr>
+        {% for m in messages %}
+        <div class="alert alert-info" role="alert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{m}}
+        </div>
+        {% endfor %}
+        <center>
+        <div class='row border' style='border-radius: 1em;'>
+            <div class='col-5'>
+                <img src="{{user.profile.picture.url}}" width='70%'>
+            </div>
+            <div class='col-5'>
+            <br><br><br>
+                <p>ชื่อผู้ใช้ : {{request.user.username}}</p>
+                <p>ชื่อ : {{request.user.first_name}} {{request.user.last_name}}</p>
+                <p>อีเมล : {{request.user.email}}</p>
+                <p>เบอร์โทรศัพท์ : {{request.user.profile.tel}}</p>
+                <a href="{% url 'update_profile' %}">
+                    <button class='btn btn-danger'>แก้ไขโปรไฟล์</button>
+                </a>
+            </div>
+        </div>
+        </center>
+    </div>
+{% endblock %}

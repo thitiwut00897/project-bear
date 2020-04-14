@@ -8,7 +8,7 @@ from django.contrib import messages
 from main.forms import UpdateProfile,ProfileForm
 from main.models import *
 # Create your views here.
-@login_required
+
 def index(request):
     product = Product.objects.all()
     type = Type.objects.all()
@@ -108,6 +108,7 @@ def basket(request):
         'total': total
     }
     return render(request, 'main/basket.html',context=context)
+@login_required
 def addtobasket(request,product_id):
     product = Product.objects.get(pk=product_id)
     item = Order_items.objects.all()
@@ -134,13 +135,19 @@ def addtobasket(request,product_id):
     item.save()
     messages.info(request,'เพิ่มสินค้าลงตะกร้าแล้ว')
     return redirect('index')
+@login_required
 def deletetobasket(request,basket_id):
     item = Order_items.objects.get(pk=basket_id)
     item.delete()
     messages.info(request,'ลบสินค้าในตะกร้าแล้ว')
     return redirect('basket')
+@login_required
 def payment(request):
     return HttpResponse('Payment Page.')
+@login_required
+def profile(request):
+    return render(request,'profile.html')
+@login_required
 def update_profile(request):
     if request.method == 'POST':
         form1 = ProfileForm(request.POST,request.FILES,instance=request.user.profile)

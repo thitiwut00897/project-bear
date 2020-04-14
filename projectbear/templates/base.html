@@ -53,8 +53,8 @@
 
     <nav class="navbar navbar-expand-lg sticky-top">
 		<div class="container">
-			<a class="navbar-brand text-white" href="{% url 'index' %}"><i class="fa fa-graduation-cap fa-lg mr-2"></i><img src="{% static 'payment-terminal.png'%}"> {{request.user.username}}
-            ({{request.user.first_name}} {{request.user.last_name}})</a>
+			<a class="navbar-brand text-white" href="{% url 'index' %}">
+            <i class="fa fa-graduation-cap fa-lg mr-2"></i><img src="{% static 'payment-terminal.png'%}"></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nvbCollapse" aria-controls="nvbCollapse">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -68,30 +68,34 @@
 					</li>
                     {% if request.user.is_staff %}
                         <li class="nav-item pl-1">
-                            <a class="nav-link" href="#"><i class="fa fa-info-circle fa-fw mr-1"></i>ตรวจสอบสลิป/ยืนยัน</a>
+                            <a class="nav-link" href="{% url 'payment' %}"><i class="fa fa-info-circle fa-fw mr-1"></i>ตรวจสอบสลิป/ยืนยัน</a>
                         </li>
                         <li class="nav-item pl-1">
-                            <a class="nav-link" href="#"><i class="fa fa-phone fa-fw fa-rotate-180 mr-1"></i>คิวสั้งซื้อ</a>
+                            <a class="nav-link" href="{% url 'queue' %}"><i class="fa fa-phone fa-fw fa-rotate-180 mr-1"></i>คิวสั้งซื้อ</a>
                         </li>
-                        {% comment %} <li class="nav-item pl-1">
-                            <a class="nav-link" href="#"><i class="fa fa-user-plus fa-fw mr-1"></i>สถาะนะตรวจสอบสลิป/ยืนยัน</a>
-                        </li> {% endcomment %}
                         <li class="nav-item pl-1">
                             <a class="nav-link" href="{% url 'manage' %}"><i class="fa fa-user-plus fa-fw mr-1"></i>จัดการสินค้า</a>
                         </li>
                         <li class="nav-item pl-1">
-                            <a class="nav-link" href="#"><i class="fa fa-user-plus fa-fw mr-1"></i>สรุปยอดขาย</a>
+                            <a class="nav-link" href="{% url 'allreport' %}"><i class="fa fa-user-plus fa-fw mr-1"></i>สรุปยอดขาย</a>
                         </li>
                     {% endif %}
                     <li class="nav-item dropdown pl-1">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            ตั้งค่า
+                            สวัสดี,{{request.user}}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{% url 'myprofile' %}">โปรไฟล์</a>
+                        {% if request.user.is_active %}
+                        <center>
+                        <img src="{{request.user.profile.picture.url}}" width='50%'>
+                        </center><br>
+                        <a class="dropdown-item" href="{% url 'profile' %}">โปรไฟล์</a>
                         <a class="dropdown-item" href="{% url 'changepassword' %}">เปลี่ยนรหัสผ่าน</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'logout' %}">ออกจากระบบ</a>
+                        {% else %}
+                        <a class="dropdown-item" href="{% url 'login' %}">เข้าสู่ระบบ</a>
+                        {% endif %}
                         </div>
                     </li>
 					{% comment %} <li class="nav-item pl-1">

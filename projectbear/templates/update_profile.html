@@ -1,20 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="container">
-        <h2>โปรไฟล์</h2>
+        <h2>แก้ไขโปรไฟล์</h2>
         <hr>
         {% for m in messages %}
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-info" role="alert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{m}}
         </div>
         {% endfor %}
         <center>
         <div class='row'>
-            <div class='col-5'>
-                <img src="{{user.profile.picture.url}}" width='70%'>
-            </div>
-            <div class='col-5'>
-                <form method="POST" action="{% url 'myprofile' %}" enctype="multipart/form-data">
+            <div class='col'>
+                <form method="POST" action="{% url 'update_profile' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{form2.as_p}}
                 {{form1.as_p}}

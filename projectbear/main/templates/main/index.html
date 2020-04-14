@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
+{% for m in messages %}
+        <div class="alert alert-info" role="alert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{m}}
+        </div>
+{% endfor %}
     <form method="GET" action="{% url 'index' %}">
         <div class="row">
             <div class="col-sm-3">
@@ -21,24 +27,19 @@
                 <button type="submit" class="btn btn-primary col">ค้นหา</button>
             </div>
         </div>
-    </form><br>
-    {% for m in messages %}
-        <div class="alert alert-info" role="alert">
-            {{m}}
-        </div>
-    {% endfor %}
+    </form>
     <hr>
     <div class="card-group">
         <div class="row">
         {% for p in product %}
-            <div class="card col-3">
+            <div class="card col-md-3">
                 <img class="card-img-top" src="{{ p.picture.url }}" alt="" width='100%' height='150px'> 
                 <div class="card-body">
                     <h5 class="card-title">{{ p.name }}</h5>
                     <p class="card-text">{{ p.type.type_name }}</p>
                     <p class="card-text">{{ p.price|stringformat:".2f" }} บาท</p>
                     <a href="{% url 'addtobasket' product_id=p.id%}"><p class="card-text">
-                        <div class="btn btn-success col">เพิ่ม</div>
+                        <div class="btn btn-success col">หยิบสินค้าลงตะกร้า</div>
                     </p></a>
                 </div>
             </div>
