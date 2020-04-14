@@ -41,7 +41,7 @@ def my_logout(request):
     basket = Order_items.objects.all()
     basket.delete()
     logout(request)
-    return redirect('login')
+    return redirect('index')
 def my_register(request):
     if request.method == 'POST':
         username = request.POST.get('u_name','')
