@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate,login,logout,update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
@@ -42,6 +42,8 @@ def my_logout(request):
     basket.delete()
     logout(request)
     return redirect('index')
+    
+@permission_required('auth.user.Can_add_user')
 def my_register(request):
     if request.method == 'POST':
         username = request.POST.get('u_name','')
@@ -98,6 +100,7 @@ def change_password(request):
     return render(request,template_name='changepw_page.html',context=context)
 
 @login_required
+@permission_required('main.order_items.Can_view_order_items')
 def basket(request):
     basket = Order_items.objects.all()
     total = 0
@@ -109,6 +112,7 @@ def basket(request):
     }
     return render(request, 'main/basket.html',context=context)
 @login_required
+@permission_required('main.order_items.Can_add_order_items')
 def addtobasket(request,product_id):
     product = Product.objects.get(pk=product_id)
     item = Order_items.objects.all()
@@ -136,6 +140,7 @@ def addtobasket(request,product_id):
     messages.info(request,'เพิ่มสินค้าลงตะกร้าแล้ว')
     return redirect('index')
 @login_required
+@permission_required('main.order_items.Can_delete_order_items')
 def deletetobasket(request,basket_id):
     item = Order_items.objects.get(pk=basket_id)
     item.delete()
@@ -158,6 +163,7 @@ def payment(request):
 def profile(request):
     return render(request,'profile.html')
 @login_required
+@permission_required('main.profile.Can_change_profile')
 def update_profile(request):
     if request.method == 'POST':
         form1 = ProfileForm(request.POST,request.FILES,instance=request.user.profile)
