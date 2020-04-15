@@ -8,7 +8,7 @@
 * Change Password
 ------
 # ยังไม่ได้ทำ
-X Group And Permission
+X Group And Permission(เหลือส่วนที่ยังทำไม่เสร็จ)
 X ชำระเงิน
 X crispy_form
 X ประวัติการชำระ
