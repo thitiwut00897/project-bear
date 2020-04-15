@@ -19,5 +19,5 @@ from .views import *
 urlpatterns = [
     path('report',all_report,name='allreport'),
     path('queue',createorder,name='queue'),
-    path('payment',history_payment,name='payment'),
+    path('payment',history_payment,name='payments'),
 ]

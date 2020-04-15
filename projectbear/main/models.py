@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     tel = models.CharField(max_length=10,null=True)
-    picture = models.ImageField(default='default_pic.png',upload_to='user',null=True,blank=True)
+    picture = models.ImageField(default='user/default_pic.png',upload_to='user',null=True,blank=True)
 
 class Type(models.Model):
     type_name = models.CharField(max_length=255)
@@ -17,12 +17,18 @@ class Product(models.Model):
     description = models.CharField(max_length=255,null=True)
     price = models.FloatField()
     stock = models.IntegerField()
-    picture = models.ImageField(upload_to='product_pic',null=True,blank=True)
+    picture = models.ImageField(default='product_pic/default.png',upload_to='product_pic',null=True,blank=True)
     def __str__(self):
         return self.name
 class Order(models.Model):
     date = models.DateTimeField(auto_now=True)
+    cust_name = models.CharField(max_length=255,null=True)
     total_price = models.FloatField()
+    Status_Choice = [
+        (False,'ยังไม่จ่าย'),
+        (True,'จ่ายแล้ว')
+    ]
+    status = models.BooleanField(default=False,choices=Status_Choice)
 class Order_items(models.Model):
     item_no = models.ForeignKey(Product, on_delete=models.PROTECT,null=True)
     unit = models.IntegerField()
@@ -35,5 +41,5 @@ class Order_Products(models.Model):
 class Payment(models.Model):
     pay_time = models.DateTimeField(auto_now=True)
     pay_price = models.FloatField()
-    pay_name = models.CharField(max_length=255)
+    pay_name = models.CharField(max_length=255,null=True)
     pay_file = models.ImageField

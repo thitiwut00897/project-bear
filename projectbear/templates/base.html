@@ -48,9 +48,24 @@
     </style>
 </head>
 
-
-<body>
-
+<script>
+    function startTime() {
+  var today = new Date();
+  var h = today.getHours();
+  var m = today.getMinutes();
+  var s = today.getSeconds();
+  m = checkTime(m);
+  s = checkTime(s);
+  document.getElementById('txt').innerHTML =
+  h + ":" + m + ":" + s;
+  var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+  return i;
+}
+</script>
+<body onload="startTime()">
     <nav class="navbar navbar-expand-lg sticky-top">
 		<div class="container">
 			<a class="navbar-brand text-white" href="{% url 'index' %}">
@@ -60,6 +75,9 @@
 			</button>
 			<div class="collapse navbar-collapse" id="nvbCollapse">
 				<ul class="navbar-nav ml-auto">
+                    <li class="nav-item pl-1">
+                        <a class="nav-link" href="#"><class="fa fa-user-plus fa-fw mr-1" id='txt'></a>
+                    </li>
 					<li class="nav-item active pl-1">
 						<a class="nav-link" href="{% url 'index' %}"><i class="fa fa-home fa-fw mr-1"></i>หน้าหลัก</a>
 					</li>
@@ -68,7 +86,7 @@
 					</li>
                     {% if request.user.is_staff %}
                         <li class="nav-item pl-1">
-                            <a class="nav-link" href="{% url 'payment' %}"><i class="fa fa-info-circle fa-fw mr-1"></i>ตรวจสอบสลิป/ยืนยัน</a>
+                            <a class="nav-link" href="#"><i class="fa fa-info-circle fa-fw mr-1"></i>ตรวจสอบสลิป/ยืนยัน</a>
                         </li>
                         <li class="nav-item pl-1">
                             <a class="nav-link" href="{% url 'queue' %}"><i class="fa fa-phone fa-fw fa-rotate-180 mr-1"></i>คิวสั้งซื้อ</a>
@@ -81,11 +99,11 @@
                         </li>
                     {% endif %}
                     <li class="nav-item dropdown pl-1">
+                    {% if request.user.is_active %}
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             สวัสดี,{{request.user}}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {% if request.user.is_active %}
                         <center>
                         <img src="{{request.user.profile.picture.url}}" width='50%'>
                         </center><br>
@@ -93,14 +111,11 @@
                         <a class="dropdown-item" href="{% url 'changepassword' %}">เปลี่ยนรหัสผ่าน</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'logout' %}">ออกจากระบบ</a>
-                        {% else %}
-                        <a class="dropdown-item" href="{% url 'login' %}">เข้าสู่ระบบ</a>
-                        {% endif %}
                         </div>
-                    </li>
-					{% comment %} <li class="nav-item pl-1">
-						<a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-sign-in fa-fw mr-1"></i>logout</a>
-					</li> {% endcomment %}
+                    </li> 
+                    {% else %}
+                        <a class="nav-link" href="{% url 'login' %}">เข้าสู่ระบบ</a>
+                    {% endif %}
 				</ul>
 			</div>
 		</div>

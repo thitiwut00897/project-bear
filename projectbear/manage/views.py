@@ -89,7 +89,7 @@ def product_update(request,product_id):
     if request.method == 'POST':
         product.name = request.POST.get('txt_2')
         product.type_id = request.POST.get('txt')
-        product.description = request.POST.get('txt_3')
+        product.stock = request.POST.get('txt_3')
         try:
             product.price = request.POST.get('txt_4')
             product.save()

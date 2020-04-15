@@ -143,6 +143,16 @@ def deletetobasket(request,basket_id):
     return redirect('basket')
 @login_required
 def payment(request):
+    total = 0
+    item = Order_items.objects.all()
+    for i in item:
+        total += i.item_price
+    orders = Order.objects.create(
+        total_price = total,
+        cust_name = request.user.username
+    )
+    orders.save()
+    item.delete()
     return HttpResponse('Payment Page.')
 @login_required
 def profile(request):
@@ -164,4 +174,4 @@ def update_profile(request):
         'form1':form1,
         'form2':form2
     }
-    return render(request,'update_profile.html',context=context)
+    return render(request,'profile.html',context=context)
