@@ -105,3 +105,7 @@ def product_update(request,product_id):
     }
     return render(request,'manage/product_form2.html',context=context)
 
+# @login_required
+# def queue(request):
+#     return render(request, 'manage/queue.html')
+

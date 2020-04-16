@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .table-area{
+        height: 55vh;
+        overflow-y: scroll;
+    }
+    .pad{
+        margin-left:700px;
+    }
+</style>
+    <h2>จ่ายตัง</h2><br>
+    {% comment %} {{ total }} {% endcomment %}
+    <table class="table table-bordered-primary text-center">
+        <thead class="bg-dark text-light">
+          <tr>
+            <td>เวลา</td>
+            <td>ชื่อ</td>
+            <td>ราคาสินค้ารวม</td>
+            <td>สถานะ</td>
+            <td>ยืนยัน</td>
+            <td>ลบorder</td>
+            
+          </tr>
+        </thead>
+        <tbody>
+        {% for o in order %}
+          <tr>
+            <td width='10'>{{ o.date }}</td>
+            <td width='150'>{{ o.cust_name }}</td>
+            <td width='150'>{{ o.total_price }}</td>
+            <td width='150'>{{ o.status }}</td>
+            
+            <td width='20'>
+              <a href="{% url 'acceptorder' order_id=o.id %}">
+                <div class="btn btn-success col">ยืนยัน</div>
+              </a>
+            </td>
+            <td width='20'>
+              <a href="{% url 'deleteorder' order_id=o.id %}">
+                <div class="btn btn-danger col">ลบ</div>
+              </a>
+            </td>
+            
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    
+{% endblock %}

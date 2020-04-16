@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+ <div class="container">
+    {% comment %} {% if notice %}
+    <div class="alert alert-info" role="alert">
+      {{notice}}
+    </div>
+    {% endif %} {% endcomment %}
+
+    <form method="POST" action="{% url 'index' %}" enctype="multipart/form-data">
+      <h2>ส่งหลักฐานการชำระเงิน</h2>
+      {% csrf_token %}
+      <div class="form-group">
+        {% if not product.id %}
+        <div class="col">
+          <label>รูป :</label>
+          <input type="file" name="picture" id="picture" value="{{picture}}" required>
+        </div>
+        {% endif %}
+      </div>
+      <input type="submit" class="btn btn-success" value="ตกลง">
+    </form><br>
+</div>
+{% endblock %}

@@ -20,5 +20,6 @@ urlpatterns = [
     path('', views.manage, name='manage'),
     path('product/',views.add_product, name='addpd'),
     path('product/delete/<int:product_id>/',views.delete_product,name='del_product'),
+    # path('queue',views.queue,name='queue'),
     path('product/<int:product_id>',views.product_update,name='pup'),
 ]

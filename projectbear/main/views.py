@@ -23,6 +23,7 @@ def index(request):
         'type':type,
     }
     return render(request, 'main/index.html', context=context)
+
 def my_login(request):
     context = {}
     if request.method == "POST":
@@ -37,6 +38,7 @@ def my_login(request):
             context['password'] = password
             messages.info(request,'ชื่อผู้ใช้ หรือ รหัสผ่านผิด โปรดลองอีกครั้ง')
     return render(request,'login_page.html',context=context)
+
 def my_logout(request):
     basket = Order_items.objects.all()
     basket.delete()
@@ -80,6 +82,7 @@ def my_register(request):
             messages.info(request,'รหัสผ่านไม่ตรงกัน')
             return redirect('register')
     return render(request,template_name='register_page.html')
+
 # เปลี่ยนรหัสผ่าน
 @login_required
 def change_password(request):
@@ -111,6 +114,7 @@ def basket(request):
         'total': total
     }
     return render(request, 'main/basket.html',context=context)
+
 @login_required
 @permission_required('main.order_items.Can_add_order_items')
 def addtobasket(request,product_id):
@@ -139,6 +143,7 @@ def addtobasket(request,product_id):
     item.save()
     messages.info(request,'เพิ่มสินค้าลงตะกร้าแล้ว')
     return redirect('index')
+
 @login_required
 @permission_required('main.order_items.Can_delete_order_items')
 def deletetobasket(request,basket_id):
@@ -146,6 +151,7 @@ def deletetobasket(request,basket_id):
     item.delete()
     messages.info(request,'ลบสินค้าในตะกร้าแล้ว')
     return redirect('basket')
+
 @login_required
 def payment(request):
     total = 0
@@ -154,14 +160,21 @@ def payment(request):
         total += i.item_price
     orders = Order.objects.create(
         total_price = total,
-        cust_name = request.user.username
+        cust_name = request.user.username,
+        
     )
     orders.save()
     item.delete()
-    return HttpResponse('Payment Page.')
+    order = Order.objects.all()
+    context ={
+        'order':order,
+    }
+    return render(request,'main/payment.html', context=context)
+
 @login_required
 def profile(request):
     return render(request,'profile.html')
+
 @login_required
 @permission_required('main.profile.Can_change_profile')
 def update_profile(request):
@@ -181,3 +194,19 @@ def update_profile(request):
         'form2':form2
     }
     return render(request,'profile.html',context=context)
+
+def acceptorder(request, order_id):
+    order= Order.objects.get(pk=order_id)
+    order.status = True
+    order.save()
+
+    return redirect('index')
+
+def deleteorder(request, order_id):
+    order= Order.objects.get(pk=order_id)
+    order.delete()
+    return redirect('payment')
+
+def formpayment(request):
+    return render(request,'main/formpayment.html')
+

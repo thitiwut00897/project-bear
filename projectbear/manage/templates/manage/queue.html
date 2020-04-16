@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<body>
+{{text}}
+  <div class="container">
+    <h2>คิวการสั่งซื้อ</h2>
+    <hr>
+      <table class="table table-bordered-primary text-center">
+        <thead class="bg-dark text-light">
+          <tr>
+            <td>รหัส</td>
+            <td>เวลา</td>
+            <td>ชื่อ</td>
+            <td>ราคาสินค้ารวม</td>
+            <td>สถานะ</td>
+          </tr>
+        </thead>
+        {% comment %} <tbody>
+        {% for p in product %}
+          <tr>
+            <td width='10'>{{ p.id }}</td>
+            <td width='150'>{{ p.name }}</td>
+            <td width='150'>{{ p.type.type_name }}</td>
+            <td width='150'>{{ p.price|stringformat:".2f" }} บาท</td>
+            <td width='150'>{{ p.stock }}</td>
+            <td width='20'>
+              <a href="{% url 'pup' product_id=p.id %}">
+                <div class="btn btn-warning col">อัพเดท</div>
+              </a>
+            </td>
+            <td width='20'>
+              <a href="{% url 'del_product' product_id=p.id %}">
+                <div class="btn btn-danger col">ลบสินค้า</div>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody> {% endcomment %}
+      </table>
+    {% comment %} </div> {% endcomment %}
+  </div>
+</body>
+<style>
+  .scr {
+    height: 60vh;
+    overflow: scroll;
+    overflow-x: hidden;
+  }
+</style>
+{% endblock %}
