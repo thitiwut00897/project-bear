@@ -109,11 +109,19 @@ def basket(request):
     total = 0
     for i in basket:
         total += i.item_price
-    context={
-        'basket':basket,
-        'total': total
-    }
-    return render(request, 'main/basket.html',context=context)
+    if total > 0:
+        context={
+            'basket':basket,
+            'total': total
+        }
+        return render(request, 'main/basket.html',context=context)
+    else:
+        total = 0
+        context={
+            'basket':basket,
+            'total': total
+        }
+        return render(request, 'main/basket.html',context=context)
 
 @login_required
 @permission_required('main.order_items.Can_add_order_items')
@@ -199,7 +207,6 @@ def acceptorder(request, order_id):
     order= Order.objects.get(pk=order_id)
     order.status = True
     order.save()
-
     return redirect('index')
 
 def deleteorder(request, order_id):
@@ -209,4 +216,3 @@ def deleteorder(request, order_id):
 
 def formpayment(request):
     return render(request,'main/formpayment.html')
-

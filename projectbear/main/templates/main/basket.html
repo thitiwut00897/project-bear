@@ -41,9 +41,12 @@
             </table>
         </div>
         <hr>
-        <h3>ราคารวมทั้งหมด :<b class='pad'> {{total|stringformat:".2f"}} บาท</b></h3>
+            <h3>ราคารวมทั้งหมด :<b class='pad'> {{total|stringformat:".2f"}} บาท</b></h3>
+            
+        {% if total > 0 %}
         <a href="{% url 'formpayment' %}">
             <div class='btn btn-primary col'>ชำระเงิน</div>
         </a>
+        {% endif %}
     </div>
 {% endblock %}
