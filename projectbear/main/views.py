@@ -162,17 +162,17 @@ def deletetobasket(request,basket_id):
 
 @login_required
 def payment(request):
-    total = 0
-    item = Order_items.objects.all()
-    for i in item:
-        total += i.item_price
-    orders = Order.objects.create(
-        total_price = total,
-        cust_name = request.user.username,
+    # total = 0
+    # item = Order_items.objects.all()
+    # for i in item:
+    #     total += i.item_price
+    # orders = Order.objects.create(
+    #     total_price = total,
+    #     cust_name = request.user.username,
         
-    )
-    orders.save()
-    item.delete()
+    # )
+    # orders.save()
+    # item.delete()
     order = Order.objects.all()
     context ={
         'order':order,
@@ -207,7 +207,7 @@ def acceptorder(request, order_id):
     order= Order.objects.get(pk=order_id)
     order.status = True
     order.save()
-    return redirect('index')
+    return redirect('payment')
 
 def deleteorder(request, order_id):
     order= Order.objects.get(pk=order_id)
@@ -215,4 +215,15 @@ def deleteorder(request, order_id):
     return redirect('payment')
 
 def formpayment(request):
+    total = 0
+    item = Order_items.objects.all()
+    for i in item:
+        total += i.item_price
+    orders = Order.objects.create(
+        total_price = total,
+        cust_name = request.user.username,
+        
+    )
+    orders.save()
+    item.delete()
     return render(request,'main/formpayment.html')
