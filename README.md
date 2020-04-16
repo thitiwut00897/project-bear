@@ -14,5 +14,5 @@ X Group And Permission(เหลือส่วนที่ยังทำไม
 X crispy_form
 X ประวัติการชำระ
 X จัดการคิว
-X ชำระเงินแล้ววิธีเช็ครูป
+X ชำระเงินแล้ววิธีเช็ครูป(formpayment ตรงรูปเอา required ออกใช้ได้)
 X สรุปยอดขาย แสดงเฉพาะorder status=True
