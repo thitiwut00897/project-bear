@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+ <div class="container">
+    <h2>เพิ่มสินค้า</h2>
+    <hr>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class='row'>
+        <div class='col-md-3'>
+          {{form.type|as_crispy_field}}
+        </div>
+        <div class='col-md-9'>
+          {{form.name|as_crispy_field}}
+        </div>
+      </div>
+      {{form.description|as_crispy_field}}
+      {{form.price|as_crispy_field}}
+      {{form.stock|as_crispy_field}}
+      {{form.picture|as_crispy_field}}
+      <input type="submit" value='Save' class='btn btn-primary col'>
+    </form>
+ </div>
+{% endblock %}

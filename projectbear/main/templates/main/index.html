@@ -33,14 +33,18 @@
         <div class="row">
         {% for p in product %}
             <div class="card col-md-3">
-                <img class="card-img-top" src="{{ p.picture.url }}" alt="" width='100%' height='150px'> 
+                <img class="card-img-top" src="{{ p.picture.url }}" alt="" width='100%' height='225px'> 
                 <div class="card-body">
                     <h5 class="card-title">{{ p.name }}</h5>
                     <p class="card-text">{{ p.type.type_name }}</p>
                     <p class="card-text">{{ p.price|stringformat:".2f" }} บาท</p>
+                    {% if p.stock > 0 %}
                     <a href="{% url 'addtobasket' product_id=p.id%}"><p class="card-text">
                         <div class="btn btn-success col">หยิบสินค้าลงตะกร้า</div>
                     </p></a>
+                    {% else %}
+                        <div class="btn btn-info col disabled">สินค้าหมด</div>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}

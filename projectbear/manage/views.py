@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required,permission_required
 from django.contrib.auth import authenticate,login,logout
@@ -46,7 +46,7 @@ def add_product(request):
         'form':form,
         'page_title':page_title
     }
-    return render(request,'manage/product_form.html',context=context)
+    return render(request,'manage/addproduct_form.html',context=context)
 # เพิ่มเข้าในตาราง product
 @login_required
 def add_to_database(request):
@@ -74,7 +74,7 @@ def add_to_database(request):
         'type':type,
         'page_title':page_title
     }
-    return render(request, 'manage/product_form.html', context=context)
+    return render(request, 'manage/addproduct_form.html', context=context)
 
 # ลบสินค้า
 @login_required
@@ -87,28 +87,40 @@ def delete_product(request,product_id):
 @login_required
 @permission_required('main.change_product')
 def product_update(request,product_id):
-    page_title = 'Update Product = %d' %product_id
-    product = Product.objects.get(pk=product_id)
-    type = Type.objects.all()
-    notice = ''
-    if request.method == 'POST':
-        product.name = request.POST.get('txt_2')
-        product.type_id = request.POST.get('txt')
-        product.stock = request.POST.get('txt_3')
-        try:
-            product.price = request.POST.get('txt_4')
-            product.save()
-            notice = 'บันทึกข้อมูลเรียบร้อยแล้ว'
-        except ValueError:
-            notice = 'โอ๊ะ! ประเภทข้อมูลผิดพลาด'
-    context={
-        'num':product_id,
-        'product':product,
-        'type':type,
-        'notice':notice,
-        'page_title':page_title
+    product = get_object_or_404(Product, id=product_id)
+    form = ProductForm(request.POST or None ,request.FILES or None , instance=product)
+    if form.is_valid():
+        product = form.save(commit=False)
+        product.save()
+        messages.success(request,'เพิ่มสินค้าสำเร็จแล้ว')
+        return redirect('index')
+    context = {
+        'form':form,
+        'number':product.id
     }
-    return render(request,'manage/product_form2.html',context=context)
+
+    # page_title = 'Update Product = %d' %product_id
+    # product = Product.objects.get(pk=product_id)
+    # type = Type.objects.all()
+    # notice = ''
+    # if request.method == 'POST':
+    #     product.name = request.POST.get('txt_2')
+    #     product.type_id = request.POST.get('txt')
+    #     product.stock = request.POST.get('txt_3')
+    #     try:
+    #         product.price = request.POST.get('txt_4')
+    #         product.save()
+    #         notice = 'บันทึกข้อมูลเรียบร้อยแล้ว'
+    #     except ValueError:
+    #         notice = 'โอ๊ะ! ประเภทข้อมูลผิดพลาด'
+    # context={
+    #     'num':product_id,
+    #     'product':product,
+    #     'type':type,
+    #     'notice':notice,
+    #     'page_title':page_title
+    # }
+    return render(request,'manage/editproduct_form.html',context=context)
 
 # @login_required
 # def queue(request):

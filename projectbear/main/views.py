@@ -158,26 +158,11 @@ def deletetobasket(request,basket_id):
 
 @login_required
 def queue(request):
-    # total = 0
-    # item = Order_items.objects.all()
-    # for i in item:
-    #     total += i.item_price
-    # orders = Order.objects.create(
-    #     total_price = total,
-    #     cust_name = request.user.username,
-        
-    # )
-    # orders.save()
-    # item.delete()
     order = Order.objects.all().order_by('-id')
     context ={
         'order':order,
     }
     return render(request,'main/queue.html', context=context)
-
-@login_required
-def profile(request):
-    return render(request,'profile.html')
 
 @login_required
 def update_profile(request):
@@ -202,12 +187,12 @@ def acceptorder(request, order_id):
     order= Order.objects.get(pk=order_id)
     order.status = True
     order.save()
-    return redirect('payment')
+    return redirect('queue')
 
 def deleteorder(request, order_id):
     order= Order.objects.get(pk=order_id)
     order.delete()
-    return redirect('payment')
+    return redirect('queue')
 
 def formpayment(request):
     total = 0
@@ -216,8 +201,7 @@ def formpayment(request):
         total += i.item_price
     orders = Order.objects.create(
         total_price = total,
-        cust_name = request.user.username,
-        
+        cust_name = request.user.first_name+' '+request.user.last_name+' ('+request.user.username+')'
     )
     orders.save()
     item.delete()

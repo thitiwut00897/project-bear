@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
 <script>
 
@@ -9,8 +10,8 @@
         <hr>
         <form method="POST">
             {% csrf_token %}
-            {{form.as_p}}<br><br>
-            <input type="submit" value="เปลี่ยนรหัสผ่าน" class="btn btn-outline-success col">
+            {{form|crispy}}<br><br>
+            <input type="submit" value="เปลี่ยนรหัสผ่าน" class="btn btn-outline-success">
         </form>
     </div>
 {% endblock %}

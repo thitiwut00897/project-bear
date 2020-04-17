@@ -1,18 +1,18 @@
 # project-bear
+    ร้านน้ำป้าหมี Web Programming Project
 ### Task ที่เสร็จแล้ว
-* แสดงรุปภาพได้
-* เพิ่มสินค้า แก้ไขสินค้าได้
+* แสดงรูปภาพได้
+* เพิ่มสินค้า แก้ไขสินค้าได้ ใช้เป็น modelform+crispy_form
 * Login/Register
 * ตะกร้า เพิ่ม-ลบสินค้าได้
-* Update User Profile
+* User Profile
 * Change Password
-*  ชำระเงินจากตะกร้า
-* ยืนยัน/ลบ คิวสั่งซื้อ
+* ชำระเงินจากตะกร้า
+* ยืนยัน/ลบ คิวสั่งซื้อเรียงโดยใช้ id แบบ มาก-น้อย
+* Group And Permission โอเคแล้ว
 ------
 # ยังไม่ได้ทำ
-X Group And Permission(เหลือส่วนที่ยังทำไม่เสร็จ)
-X crispy_form
-X ประวัติการชำระ
-X จัดการคิว
-X ชำระเงินแล้ววิธีเช็ครูป(formpayment ตรงรูปเอา required ออกใช้ได้)
-X สรุปยอดขาย แสดงเฉพาะorder status=True
+* ประวัติการชำระ
+* ชำระเงินแล้ววิธีเช็ครูป (formpayment ตรงรูปเอา required ออกใช้ได้)
+* สรุปยอดขาย แสดงเฉพาะ order status=True
+
