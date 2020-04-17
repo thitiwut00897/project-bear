@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,permission_required
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -10,6 +10,7 @@ from main.forms import ProductForm
 
 # Create your views here.
 @login_required
+@permission_required('main.view_product')
 def manage(request):
     product = Product.objects.all()
     type = Type.objects.all()
@@ -28,6 +29,7 @@ def manage(request):
 
 # หน้าเพิ่มสินค้า
 @login_required
+@permission_required('main.add_product')
 def add_product(request):
     page_title = 'Add Product'
     if request.method == 'GET':
@@ -76,11 +78,14 @@ def add_to_database(request):
 
 # ลบสินค้า
 @login_required
+@permission_required('main.delete_product')
 def delete_product(request,product_id):
     products = Product.objects.get(id=product_id)
     products.delete()
     return redirect(to='manage')
 
+@login_required
+@permission_required('main.change_product')
 def product_update(request,product_id):
     page_title = 'Update Product = %d' %product_id
     product = Product.objects.get(pk=product_id)

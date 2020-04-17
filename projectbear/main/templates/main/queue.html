@@ -14,19 +14,18 @@
     <table class="table table-bordered-primary text-center">
         <thead class="bg-dark text-light">
           <tr>
-            <td>เวลา</td>
-            <td>ชื่อ</td>
+            <td>หมายเลขออเดอร์</td>
+            <td>ชื่อผู้ใช้</td>
             <td>ราคาสินค้ารวม</td>
             <td>สถานะ</td>
             <td>ยืนยัน</td>
             <td>ลบorder</td>
-            
           </tr>
         </thead>
         <tbody>
         {% for o in order %}
           <tr>
-            <td width='10'>{{ o.date }}</td>
+            <td width='10'>{{ o.id }}</td>
             <td width='150'>{{ o.cust_name }}</td>
             <td width='150'>{{ o.total_price }}</td>
             <td width='150'>{{ o.status }}</td>

@@ -45,7 +45,6 @@ def my_logout(request):
     logout(request)
     return redirect('index')
     
-@permission_required('auth.user.Can_add_user')
 def my_register(request):
     if request.method == 'POST':
         username = request.POST.get('u_name','')
@@ -103,7 +102,6 @@ def change_password(request):
     return render(request,template_name='changepw_page.html',context=context)
 
 @login_required
-@permission_required('main.order_items.Can_view_order_items')
 def basket(request):
     basket = Order_items.objects.all()
     total = 0
@@ -124,7 +122,6 @@ def basket(request):
         return render(request, 'main/basket.html',context=context)
 
 @login_required
-@permission_required('main.order_items.Can_add_order_items')
 def addtobasket(request,product_id):
     product = Product.objects.get(pk=product_id)
     item = Order_items.objects.all()
@@ -153,7 +150,6 @@ def addtobasket(request,product_id):
     return redirect('index')
 
 @login_required
-@permission_required('main.order_items.Can_delete_order_items')
 def deletetobasket(request,basket_id):
     item = Order_items.objects.get(pk=basket_id)
     item.delete()
@@ -161,7 +157,7 @@ def deletetobasket(request,basket_id):
     return redirect('basket')
 
 @login_required
-def payment(request):
+def queue(request):
     # total = 0
     # item = Order_items.objects.all()
     # for i in item:
@@ -173,18 +169,17 @@ def payment(request):
     # )
     # orders.save()
     # item.delete()
-    order = Order.objects.all()
+    order = Order.objects.all().order_by('-id')
     context ={
         'order':order,
     }
-    return render(request,'main/payment.html', context=context)
+    return render(request,'main/queue.html', context=context)
 
 @login_required
 def profile(request):
     return render(request,'profile.html')
 
 @login_required
-@permission_required('main.profile.Can_change_profile')
 def update_profile(request):
     if request.method == 'POST':
         form1 = ProfileForm(request.POST,request.FILES,instance=request.user.profile)

@@ -47,6 +47,8 @@
         <a href="{% url 'formpayment' %}">
             <div class='btn btn-primary col'>ชำระเงิน</div>
         </a>
+        {% else %}
+            <div class='btn btn-primary col disabled'>ชำระเงิน</div>
         {% endif %}
     </div>
 {% endblock %}
