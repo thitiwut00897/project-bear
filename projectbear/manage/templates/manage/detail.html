@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .table-area{
+        height: 55vh;
+        overflow-y: scroll;
+    }
+    .pad{
+        margin-left:700px;
+    }
+</style>
+    <h2>รายละเอียดสินค้า</h2><br>
+    {% comment %} {% for m in messages %}
+        <div class="alert alert-info" role="alert">
+            {{m}}
+        </div>
+    {% endfor %} {% endcomment %}
+    <div class='container text-center'>
+        <div class='table-area'>
+            <table class='table'>
+                <tr>
+                    <td>จำนวน</td>
+                    <td>ชื่อสินค้า</td>
+                    <td>ราคา</td>
+                </tr>
+                {% for p in product %}
+                <tr>
+                    <td></td>
+                    <td>{{p.product.name}}</td>
+                    <td>{{p.product.price}}</td>
+                </tr>
+                {% endfor %} 
+            </table>
+        </div>
+        <h3>ราคาสินค้าทั้งหมด : {{ order.total_price }}</h3>
+        <a href="{% url 'acceptorder' orders_id=order.id %}">
+                <div class="btn btn-success col">ยืนยัน</div>
+        </a>
+    </div>
+{% endblock %}

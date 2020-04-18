@@ -18,6 +18,7 @@
             <td>ชื่อผู้ใช้</td>
             <td>ราคาสินค้ารวม</td>
             <td>Date</td>
+            <td>status</td>
             <td>ยืนยัน</td>
             <td>ลบorder</td>
           </tr>
@@ -29,9 +30,15 @@
             <td width='150'>{{ o.cust_name }}</td>
             <td width='150'>{{ o.total_price }}</td>
             <td width='150'>{{o.date}}</td>
-            <td width='20'>
+            <td width='150'>{{o.status}}</td>
+            {% comment %} <td width='20'>
               <a href="{% url 'acceptorder' order_id=o.id %}">
                 <div class="btn btn-success col">ยืนยัน</div>
+              </a>
+            </td> {% endcomment %}
+            <td width='20'>
+              <a href="{% url 'detail' order_id=o.id %}">
+                <div class="btn btn-success col">รายละเอียด</div>
               </a>
             </td>
             <td width='20'>

@@ -79,3 +79,20 @@ def queue(request):
         'order':order,
     }
     return render(request,'manage/queue.html', context=context)
+
+def detail(request, order_id):
+    order = Order.objects.get(pk=order_id)
+    # item = Order_items.objects.get(pk=order.id)
+    product = Order_Products.objects.filter(order=order_id)
+    # number=[]
+    # order_product = Order_Products.objects.all()
+    # for i in order_product:
+    #     # number.append(Order_Products.objects.all().count(i.product_id))
+    #     number.append(Order_Products.objects.all().count(i.product_id))
+    #     Order_Products.objects.filter(product_id=i.product_id).delete()
+    # print(number)
+    context={
+        'order':order,
+        'product':product,
+    }
+    return render(request,'manage/detail.html', context=context)
