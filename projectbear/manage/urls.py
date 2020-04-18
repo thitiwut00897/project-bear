@@ -18,6 +18,7 @@ from django.urls import path,include
 from . import views
 urlpatterns = [
     path('', views.manage, name='manage'),
+    path('queue/',views.queue, name='queue'),
     path('product/',views.add_product, name='addpd'),
     path('product/delete/<int:product_id>/',views.delete_product,name='del_product'),
     # path('queue',views.queue,name='queue'),

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>All Report</h2>
+<hr>
+<table class='table text-center'>
+    <tr>
+        <td>หมายเลขออเดอร์</td>
+        <td>วันที่</td>
+        <td>ราคารวม</td>
+    </tr>
+    {% for o in order %}
+    <tr>
+        <td>{{o.id}}</td>
+        <td>{{o.date}}</td>
+        <td>{{o.total_price}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

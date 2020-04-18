@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.forms import formset_factory
-from main.models import Type, Product
+from main.models import *
 from main.forms import ProductForm
 
 # Create your views here.
@@ -47,34 +47,6 @@ def add_product(request):
         'page_title':page_title
     }
     return render(request,'manage/addproduct_form.html',context=context)
-# เพิ่มเข้าในตาราง product
-@login_required
-def add_to_database(request):
-    page_title = 'Add Product'
-    type = Type.objects.all()
-    create= ''
-    notice = ''
-    if request.method == 'POST' and request.FILES['picture']:
-        number = request.POST.get('txt_1')
-        try:
-            create = Product(
-                    type=Type.objects.get(pk=number),
-                    name=request.POST.get('txt_2'),
-                    stock=request.POST.get('txt_3'),
-                    price=request.POST.get('txt_4'),
-                    picture=request.FILES['picture'],
-                )
-            create.save()
-            notice = 'การเพิ่มสินค้าของคุณสำเร็จแล้ว -> หมายเลขสินค้าที่ %s' % (create.id)
-        except ValueError:
-            notice = 'โอ๊ะ! ประเภทข้อมูลผิดพลาด'
-    context = {
-        'create':create,
-        'notice':notice,
-        'type':type,
-        'page_title':page_title
-    }
-    return render(request, 'manage/addproduct_form.html', context=context)
 
 # ลบสินค้า
 @login_required
@@ -98,31 +70,12 @@ def product_update(request,product_id):
         'form':form,
         'number':product.id
     }
-
-    # page_title = 'Update Product = %d' %product_id
-    # product = Product.objects.get(pk=product_id)
-    # type = Type.objects.all()
-    # notice = ''
-    # if request.method == 'POST':
-    #     product.name = request.POST.get('txt_2')
-    #     product.type_id = request.POST.get('txt')
-    #     product.stock = request.POST.get('txt_3')
-    #     try:
-    #         product.price = request.POST.get('txt_4')
-    #         product.save()
-    #         notice = 'บันทึกข้อมูลเรียบร้อยแล้ว'
-    #     except ValueError:
-    #         notice = 'โอ๊ะ! ประเภทข้อมูลผิดพลาด'
-    # context={
-    #     'num':product_id,
-    #     'product':product,
-    #     'type':type,
-    #     'notice':notice,
-    #     'page_title':page_title
-    # }
     return render(request,'manage/editproduct_form.html',context=context)
 
-# @login_required
-# def queue(request):
-#     return render(request, 'manage/queue.html')
-
+@login_required
+def queue(request):
+    order = Order.objects.all().order_by('-id').filter(status=False)
+    context ={
+        'order':order,
+    }
+    return render(request,'manage/queue.html', context=context)

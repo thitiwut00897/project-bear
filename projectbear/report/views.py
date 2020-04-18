@@ -1,9 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from main.models import Order,Order_Products,Payment
 # Create your views here.
-# def createorder(request):
-#     return HttpResponse('Order Page.')
+def each_a_order(request):
+    pass
 def history_payment(request):
     return HttpResponse('history_payment')
 def all_report(request):
-    return HttpResponse('All report.')
+    order = Order.objects.all().filter(status=True)
+    context={
+        'order':order
+    }
+    return render(request,'report/all_report.html',context=context)

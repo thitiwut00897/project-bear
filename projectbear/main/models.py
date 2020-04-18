@@ -21,23 +21,21 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 class Order(models.Model):
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateTimeField()
     cust_name = models.CharField(max_length=255,null=True)
     total_price = models.FloatField()
-    Status_Choice = [
-        (False,'ยังไม่จ่าย'),
-        (True,'จ่ายแล้ว')
-    ]
-    status = models.BooleanField(default=False,choices=Status_Choice)
+    status = models.BooleanField(default=False)
+
 class Order_items(models.Model):
     item_no = models.ForeignKey(Product, on_delete=models.PROTECT,null=True)
     unit = models.IntegerField()
     price = models.FloatField()
     item_price = models.FloatField()
+
 class Order_Products(models.Model):
-    order_id = models.IntegerField()
-    product_id = models.IntegerField()
-    user_id = models.IntegerField()
+    order = models.ForeignKey(Order, on_delete=models.CASCADE,null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,null=True)
+
 class Payment(models.Model):
     pay_time = models.DateTimeField(auto_now=True)
     pay_price = models.FloatField()

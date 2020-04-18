@@ -49,7 +49,11 @@
         </thead>
         <tbody>
         {% for p in product %}
-          <tr>
+          {% if p.stock == 0%}
+            <tr class='text-white bg-danger'>
+          {% else %}
+            <tr>
+          {% endif %}
             <td width='10'>{{ p.id }}</td>
             <td width='150'>{{ p.name }}</td>
             <td width='150'>{{ p.type.type_name }}</td>

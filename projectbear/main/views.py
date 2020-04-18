@@ -4,9 +4,11 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate,login,logout,update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
+from django.db.models import Sum
 from django.contrib import messages
 from main.forms import UpdateProfile,ProfileForm
 from main.models import *
+from datetime import datetime
 # Create your views here.
 
 def index(request):
@@ -157,14 +159,6 @@ def deletetobasket(request,basket_id):
     return redirect('basket')
 
 @login_required
-def queue(request):
-    order = Order.objects.all().order_by('-id')
-    context ={
-        'order':order,
-    }
-    return render(request,'main/queue.html', context=context)
-
-@login_required
 def update_profile(request):
     if request.method == 'POST':
         form1 = ProfileForm(request.POST,request.FILES,instance=request.user.profile)
@@ -195,14 +189,19 @@ def deleteorder(request, order_id):
     return redirect('queue')
 
 def formpayment(request):
-    total = 0
     item = Order_items.objects.all()
-    for i in item:
-        total += i.item_price
+    total = item.aggregate(Sum('item_price'))['item_price__sum']
     orders = Order.objects.create(
+        date = datetime.now(),
         total_price = total,
         cust_name = request.user.first_name+' '+request.user.last_name+' ('+request.user.username+')'
     )
+    # for i in item:
+    #     order_product = Order_Products.objects.create(
+    #         product_id = Product.objects.get(pk=i.products_id).id,
+    #         order_id = orders.id
+    #     )
+    #     order_product.save()
     orders.save()
     item.delete()
     return render(request,'main/formpayment.html')
