@@ -9,33 +9,25 @@
         margin-left:700px;
     }
 </style>
-    <h2>จ่ายตัง</h2><br>
+    <h2>คิวสั่งซื้อ</h2><br>
     {% comment %} {{ total }} {% endcomment %}
     <table class="table table-bordered-primary text-center">
-        <thead class="bg-dark text-light">
+        <thead class="">
           <tr>
             <td>หมายเลขออเดอร์</td>
             <td>ชื่อผู้ใช้</td>
             <td>ราคาสินค้ารวม</td>
-            <td>Date</td>
-            <td>status</td>
-            <td>ยืนยัน</td>
-            <td>ลบorder</td>
+            <td>วันที่</td>
+            <td colspan='2'></td>
           </tr>
         </thead>
         <tbody>
         {% for o in order %}
           <tr>
-            <td width='10'>{{ o.id }}</td>
+            <td width='20'>{{ o.id }}</td>
             <td width='150'>{{ o.cust_name }}</td>
-            <td width='150'>{{ o.total_price }}</td>
-            <td width='150'>{{o.date}}</td>
-            <td width='150'>{{o.status}}</td>
-            {% comment %} <td width='20'>
-              <a href="{% url 'acceptorder' order_id=o.id %}">
-                <div class="btn btn-success col">ยืนยัน</div>
-              </a>
-            </td> {% endcomment %}
+            <td width='60'>{{ o.total_price |stringformat:'.2f'}}</td>
+            <td width='140'>{{o.date}}</td>
             <td width='20'>
               <a href="{% url 'detail' order_id=o.id %}">
                 <div class="btn btn-success col">รายละเอียด</div>

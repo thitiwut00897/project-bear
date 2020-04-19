@@ -181,8 +181,6 @@ def acceptorder(request, orders_id):
     order= Order.objects.get(pk=orders_id)
     order.status = True
     order.save()
-    order_product = Order_Products.objects.filter(order=orders_id)
-    order_product.delete()
     return redirect('queue')
 
 def deleteorder(request, order_id):
@@ -191,33 +189,18 @@ def deleteorder(request, order_id):
     return redirect('queue')
 
 def formpayment(request):
-    list_item = []
     item = Order_items.objects.all()
     total = item.aggregate(Sum('item_price'))['item_price__sum']
-    # order = Order.objects.all()[-1]
     orders = Order.objects.create(
         date = datetime.now(),
         total_price = total,
-        cust_name = request.user.first_name+' '+request.user.last_name+' ('+request.user.username+')'
+        cust_name = request.user.username
     )
     for i in item:
-        if i.unit > 1:
-            for count in range(i.unit):
-                list_item.append(i.item_no_id)    
-        else:
-            list_item.append(i.item_no_id)
-    
-    # for i in item:
-    #     order_product = Order_Products.objects.create(
-    #         product_id = Product.objects.get(pk=i.products_id).id,
-    #         order_id = orders.id
-    #     )
-    #     order_product.save()
-    orders.save()
-    for l in list_item:
         order_product = Order_Products.objects.create(
-            product_id = int(l),
-            order_id = Order.objects.latest('id').id
+            product_id = Product.objects.get(pk=i.item_no_id).id,
+            order_id = orders.id,
+            amount = i.unit
         )
         order_product.save()
     item.delete()

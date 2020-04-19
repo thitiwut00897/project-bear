@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>ประวัติการสั่งซื้อ</h2>
+    <table class='table'>
+        <tr>
+            <td>id</td>
+            <td>date</td>
+            <td>price</td>
+        </tr>
+    {% for h in history %}
+        <tr>
+            <td>{{h.id}}</td>
+            <td>{{h.date}}</td>
+            <td>{{h.total_price|stringformat:'.2f'}}</td>
+        </tr>
+    {% endfor %}
+    <table>
+{% endblock %}

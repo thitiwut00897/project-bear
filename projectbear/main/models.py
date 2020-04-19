@@ -35,6 +35,7 @@ class Order_items(models.Model):
 class Order_Products(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE,null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE,null=True)
+    amount = models.IntegerField(null=True)
 
 class Payment(models.Model):
     pay_time = models.DateTimeField(auto_now=True)

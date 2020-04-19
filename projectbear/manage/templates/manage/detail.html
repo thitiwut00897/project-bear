@@ -25,16 +25,20 @@
                 </tr>
                 {% for p in product %}
                 <tr>
-                    <td></td>
+                    <td>{{p.amount}}</td>
                     <td>{{p.product.name}}</td>
                     <td>{{p.product.price}}</td>
                 </tr>
                 {% endfor %} 
             </table>
         </div>
-        <h3>ราคาสินค้าทั้งหมด : {{ order.total_price }}</h3>
+        <h3>ราคาสินค้าทั้งหมด : {{ order.total_price|stringformat:'.2f' }} บาท</h3>
+        {% if order.status == False %}
         <a href="{% url 'acceptorder' orders_id=order.id %}">
-                <div class="btn btn-success col">ยืนยัน</div>
+            <div class="btn btn-success col">ยืนยัน</div>
         </a>
+        {% else %}
+            <div class="btn btn-success col disabled">ชำระเสร็จสิ้นแล้ว</div>
+        {% endif %}
     </div>
 {% endblock %}

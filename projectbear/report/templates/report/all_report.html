@@ -1,19 +1,46 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>All Report</h2>
+<script>
+    function showmore(){
+        let data = document.querySelector('.name')
+        data.innerHTML = '<p>ยอดขายเฉลี่ย : {{order_avg|stringformat:'.2f'}} บาท</p>'
+        data.innerHTML += '<p>ยอดขายสูงสุด : {{order_max|stringformat:'.2f'}} บาท</p>'
+        data.innerHTML += '<p>ยอดขายต่ำสุด : {{order_min|stringformat:'.2f'}} บาท</p>'
+        data.innerHTML += '<p>จำนวนสินค้าที่ขายได้ : {{order_sumamount}} ชิ้น</p>'
+        document.querySelector('.show').remove()
+    }
+</script>
+<h2>สรุปยอดขาย</h2>
 <hr>
-<table class='table text-center'>
-    <tr>
-        <td>หมายเลขออเดอร์</td>
-        <td>วันที่</td>
-        <td>ราคารวม</td>
-    </tr>
-    {% for o in order %}
-    <tr>
-        <td>{{o.id}}</td>
-        <td>{{o.date}}</td>
-        <td>{{o.total_price}}</td>
-    </tr>
-    {% endfor %}
-</table>
+<div class='row col-lg-12'>
+    <div class='col-lg-4'>
+        <p>ยอดขายทั้งหมด : {{order_sum|stringformat:'.2f'}} บาท</p>
+        <div class='name'></div>
+        <input type='button' class='show btn btn-info col' value='ดูเพิ่มเติม' onclick='showmore()'>
+    </div>
+    <div class='col-lg-8'>
+        <div style='overflow-y: scroll; height: 70vh; width: 100vh;'>
+        <table class='table text-center'>
+            <tr>
+                <td>หมายเลขออเดอร์</td>
+                <td>วันที่</td>
+                <td>ราคารวม</td>
+                <td></td>
+            </tr>
+            {% for o in order %}
+            <tr>
+                <td>{{o.id}}</td>
+                <td>{{o.date}}</td>
+                <td>{{o.total_price|stringformat:'.2f'}}</td>
+                <td>
+                    <a href="{% url 'detail' order_id=o.id %}">
+                        <div class="btn btn-success">รายละเอียด</div>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        </div>
+    </div>
+</div>
 {% endblock %}

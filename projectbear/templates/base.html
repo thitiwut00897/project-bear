@@ -31,7 +31,7 @@
 				<ul class="sidebar__nav">
 					<li>
 						<a href="{% url 'index' %}" class="sidebar__nav__link">
-							<i class="mdi mdi-fingerprint"></i>
+							<i class="mdi mdi-home"></i>
 							<span class="sidebar__nav__text">หน้าหลัก</span>
 						</a>
 					</li>
@@ -44,13 +44,13 @@
                     {% if request.user.is_staff %}
 					<li>
 						<a href="{% url 'queue' %}" class="sidebar__nav__link">
-							<i class="mdi mdi-credit-card"></i>
+							<i class="mdi mdi-format-list-bulleted"></i>
 							<span class="sidebar__nav__text">คิวสั้งซื้อ</span>
 						</a>
 					</li>
 					<li>
 						<a href="{% url 'manage' %}" class="sidebar__nav__link">
-							<i class="mdi mdi-account-circle"></i>
+							<i class="mdi mdi-garage"></i>
 							<span class="sidebar__nav__text">จัดการสินค้า</span>
 						</a>
 					</li>
@@ -60,24 +60,24 @@
 							<span class="sidebar__nav__text">สรุปยอดขาย</span>
 						</a>
 					</li>
-                    {% endif %}
-					{% comment %} <li>
-						<a href="#" class="sidebar__nav__link">
-							<i class="mdi mdi-settings"></i>
-							<span class="sidebar__nav__text">ตั้งค่า</span>
+					{% else %}
+					<li>
+						<a href="{% url 'history_payments' %}" class="sidebar__nav__link">
+							<i class="mdi mdi-camera"></i>
+							<span class="sidebar__nav__text">ประวัติการสั่งซื้อ</span>
 						</a>
-					</li> {% endcomment %}
+					</li>
+                    {% endif %}
                     <li class="nav-item dropdown pl-1">
                         {% if request.user.is_active %}
                             <a class="nav-link dropdown-toggle sidebar__nav__link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="mdi mdi-settings"></i>
-							<span class="sidebar__nav__text">ตั้งค่า</span>
+                                <i class="mdi mdi-account-circle"></i>
+							<span class="sidebar__nav__text">{{request.user}}</span>
                         
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <center>
                             <img src="{{request.user.profile.picture.url}}" width='50%'>
-                            <a>สวัสดี,{{request.user}}</a>
                             </center><br>
                             <a class="dropdown-item" href="{% url 'profile' %}">โปรไฟล์</a>
                             <a class="dropdown-item" href="{% url 'changepassword' %}">เปลี่ยนรหัสผ่าน</a>
@@ -86,7 +86,10 @@
                             </div>
                         </li> 
                         {% else %}
-                            <a class="nav-link" href="{% url 'login' %}">เข้าสู่ระบบ</a>
+							<a href="{% url 'login' %}" class="sidebar__nav__link">
+								<i class="mdi mdi-account"></i>
+								<span class="sidebar__nav__text">เข้าสู่ระบบ</span>
+							</a>
                         {% endif %}
 				</ul>
 			</nav>

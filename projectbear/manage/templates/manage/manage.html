@@ -55,10 +55,10 @@
             <tr>
           {% endif %}
             <td width='10'>{{ p.id }}</td>
-            <td width='150'>{{ p.name }}</td>
-            <td width='150'>{{ p.type.type_name }}</td>
-            <td width='150'>{{ p.price|stringformat:".2f" }} บาท</td>
-            <td width='150'>{{ p.stock }}</td>
+            <td width='180'>{{ p.name }}</td>
+            <td width='40'>{{ p.type.type_name }}</td>
+            <td width='100'>{{ p.price|stringformat:".2f" }} บาท</td>
+            <td width='70'>{{ p.stock }}</td>
             <td width='20'>
               <a href="{% url 'pup' product_id=p.id %}">
                 <div class="btn btn-warning col">อัพเดท</div>
