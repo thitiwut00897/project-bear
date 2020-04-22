@@ -25,7 +25,7 @@
         {% for o in order %}
           <tr>
             <td width='20'>{{ o.id }}</td>
-            <td width='150'>{{ o.cust_name }}</td>
+            <td width='150'>{{ o.customer }}</td>
             <td width='60'>{{ o.total_price |stringformat:'.2f'}}</td>
             <td width='140'>{{o.date}}</td>
             <td width='20'>

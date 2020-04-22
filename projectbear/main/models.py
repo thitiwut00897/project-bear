@@ -22,7 +22,7 @@ class Product(models.Model):
         return self.name
 class Order(models.Model):
     date = models.DateTimeField()
-    cust_name = models.CharField(max_length=255,null=True)
+    customer = models.ForeignKey(User, on_delete=models.PROTECT,null=True)
     total_price = models.FloatField()
     status = models.BooleanField(default=False)
 
@@ -38,6 +38,7 @@ class Order_Products(models.Model):
     amount = models.IntegerField(null=True)
 
 class Payment(models.Model):
+    pay_id = models.ForeignKey(Order, on_delete=models.CASCADE,null=True)
     pay_time = models.DateTimeField(auto_now=True)
     pay_price = models.FloatField()
     pay_name = models.CharField(max_length=255,null=True)

@@ -11,7 +11,7 @@ from main.forms import ProductForm
 # Create your views here.
 @login_required
 @permission_required('main.view_product')
-def manage(request):
+def manage(request):    #หน้าจัดการสินค้า
     product = Product.objects.all()
     type = Type.objects.all()
     searchtype = request.GET.get('sel','')
@@ -30,7 +30,7 @@ def manage(request):
 # หน้าเพิ่มสินค้า
 @login_required
 @permission_required('main.add_product')
-def add_product(request):
+def add_product(request): #เพิ่มสินค้าโดยใช้ modelForm
     page_title = 'Add Product'
     if request.method == 'GET':
         form = ProductForm()
@@ -51,21 +51,21 @@ def add_product(request):
 # ลบสินค้า
 @login_required
 @permission_required('main.delete_product')
-def delete_product(request,product_id):
+def delete_product(request,product_id): #ลบสินค้าโดยใช้ modelForm
     products = Product.objects.get(id=product_id)
     products.delete()
     return redirect(to='manage')
 
 @login_required
 @permission_required('main.change_product')
-def product_update(request,product_id):
+def product_update(request,product_id): #แก้ไขสินค้าโดยใช้ modelForm
     product = get_object_or_404(Product, id=product_id)
     form = ProductForm(request.POST or None ,request.FILES or None , instance=product)
     if form.is_valid():
         product = form.save(commit=False)
         product.save()
-        messages.success(request,'เพิ่มสินค้าสำเร็จแล้ว')
-        return redirect('index')
+        messages.success(request,'แก้ไขสินค้าสำเร็จแล้ว')
+        return redirect('manage')
     context = {
         'form':form,
         'number':product.id
@@ -73,18 +73,19 @@ def product_update(request,product_id):
     return render(request,'manage/editproduct_form.html',context=context)
 
 @login_required
-def queue(request):
+@permission_required('main.change_order')
+def queue(request): #ดูคิวสั่งซื้อโดยเรียงจาก id มาก-น้อย
     order = Order.objects.all().order_by('-id').filter(status=False)
     context ={
         'order':order,
     }
     return render(request,'manage/queue.html', context=context)
 
-def detail(request, order_id):
+def detail(request, order_id): #ดูรายละเอียดแต่ละการสั่งซื้อ
     order = Order.objects.get(pk=order_id)
-    product = Order_Products.objects.filter(order=order_id)
+    order_product = Order_Products.objects.filter(order=order_id)
     context={
         'order':order,
-        'product':product,
+        'product':order_product,
     }
     return render(request,'manage/detail.html', context=context)

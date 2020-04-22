@@ -11,7 +11,7 @@ from main.models import *
 from datetime import datetime
 # Create your views here.
 
-def index(request):
+def index(request): #หน้าหลัก มีการค้นหาชื่อ/ประเภทสินค้า มีรูปภาพ
     product = Product.objects.all()
     type = Type.objects.all()
     search = request.GET.get('search','')
@@ -26,7 +26,7 @@ def index(request):
     }
     return render(request, 'main/index.html', context=context)
 
-def my_login(request):
+def my_login(request): #เข้าสู่ระบบ
     context = {}
     if request.method == "POST":
         username = request.POST.get('username')
@@ -41,13 +41,13 @@ def my_login(request):
             messages.info(request,'ชื่อผู้ใช้ หรือ รหัสผ่านผิด โปรดลองอีกครั้ง')
     return render(request,'login_page.html',context=context)
 
-def my_logout(request):
+def my_logout(request): #ออกจากระบบ
     basket = Order_items.objects.all()
     basket.delete()
     logout(request)
     return redirect('index')
     
-def my_register(request):
+def my_register(request): #ลงทะเบียนสำหรับลูกค้าใหม่เท่านั้น
     if request.method == 'POST':
         username = request.POST.get('u_name','')
         firstname = request.POST.get('f_name','')
@@ -86,7 +86,7 @@ def my_register(request):
 
 # เปลี่ยนรหัสผ่าน
 @login_required
-def change_password(request):
+def change_password(request): #เปลี่ยนรหัสผ่าน
     page_title = 'Change Password'
     if request.method == "POST":
         form = PasswordChangeForm(request.user,request.POST)
@@ -104,7 +104,7 @@ def change_password(request):
     return render(request,template_name='changepw_page.html',context=context)
 
 @login_required
-def basket(request):
+def basket(request): #ตะกร้าสินค้า
     basket = Order_items.objects.all()
     total = 0
     for i in basket:
@@ -124,41 +124,44 @@ def basket(request):
         return render(request, 'main/basket.html',context=context)
 
 @login_required
-def addtobasket(request,product_id):
+def addtobasket(request,product_id): #เพิ่มสินค้าเข้าไปในตะกร้า
     product = Product.objects.get(pk=product_id)
     item = Order_items.objects.all()
     unit = 1
-    if item:
-        for i in item:
-            if i.item_no_id == product_id:
-                item = Order_items.objects.get(id=i.id)
-                item.unit += 1
-                item.item_price = item.unit*product.price
-                break
-            else:
-                item = Order_items()
-                item.item_no_id= product.id
-                item.price = product.price
-                item.unit = unit
-                item.item_price = product.price
+    if product.stock > 0:
+        if item:
+            for i in item:
+                if i.item_no_id == product_id:
+                    item = Order_items.objects.get(id=i.id)
+                    item.unit += 1
+                    item.item_price = item.unit*product.price
+                    break
+                else:
+                    item = Order_items()
+                    item.item_no_id= product.id
+                    item.price = product.price
+                    item.unit = unit
+                    item.item_price = product.price
+        else:
+            item = Order_items()
+            item.item_no_id = product.id
+            item.price = product.price
+            item.unit = unit
+            item.item_price = product.price
+        item.save()
+        messages.info(request,'เพิ่มสินค้าลงตะกร้าแล้ว')
     else:
-        item = Order_items()
-        item.item_no_id = product.id
-        item.price = product.price
-        item.unit = unit
-        item.item_price = product.price
-    item.save()
-    messages.info(request,'เพิ่มสินค้าลงตะกร้าแล้ว')
+        messages.info(request,'สินค้าหมด')
     return redirect('index')
 
-@login_required
+@login_required #ลบสินค้าออกจากตะกร้า
 def deletetobasket(request,basket_id):
     item = Order_items.objects.get(pk=basket_id)
     item.delete()
     messages.info(request,'ลบสินค้าในตะกร้าแล้ว')
     return redirect('basket')
 
-@login_required
+@login_required #ดูและแก้ไขโปรไฟล์
 def update_profile(request):
     if request.method == 'POST':
         form1 = ProfileForm(request.POST,request.FILES,instance=request.user.profile)
@@ -177,24 +180,24 @@ def update_profile(request):
     }
     return render(request,'profile.html',context=context)
 
-def acceptorder(request, orders_id):
+def acceptorder(request, orders_id): # ยืนยันว่าการสั่งซื้อนี้สำเร็จแล้ว
     order= Order.objects.get(pk=orders_id)
     order.status = True
     order.save()
     return redirect('queue')
 
-def deleteorder(request, order_id):
+def deleteorder(request, order_id): # ยกเลิกการสั่งซื้อนี้
     order= Order.objects.get(pk=order_id)
     order.delete()
     return redirect('queue')
 
-def formpayment(request):
+def formpayment(request): #การสร้างการสั่งซื้อ ยังไม่สมบูรณ์
     item = Order_items.objects.all()
     total = item.aggregate(Sum('item_price'))['item_price__sum']
     orders = Order.objects.create(
         date = datetime.now(),
         total_price = total,
-        cust_name = request.user.username
+        customer = User.objects.get(pk=request.user.id)
     )
     for i in item:
         order_product = Order_Products.objects.create(

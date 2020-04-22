@@ -18,6 +18,7 @@ class UpdateProfile(forms.ModelForm):
         model = User
         fields = ('username', 'email', 'first_name', 'last_name')
 class ProductForm(forms.ModelForm):
+    type = forms.ModelChoiceField(queryset=Type.objects.all(),label='ประเภทสินค้า')
     name = forms.CharField(label='ชื่อสินค้า',required=True)
     description = forms.CharField(label='คำอธิบาย',required=False)
     price = forms.DecimalField(label='ราคา',required=True,min_value=0)
