@@ -6,22 +6,16 @@
             {{m}}
         </div>
 {% endfor %}
-<div class="jumbotron jumbotron-fluid">
-  <div class="container">
-    <h1 class="display-4">ยินดีต้อนรับ,บราวน์แบร์รี่คาเฟ่</h1>
-    <p class="lead">Welcome to Brown beary cafe and snack shop.</p>
-  </div>
-</div>
     <form method="GET" action="{% url 'index' %}">
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-md-3">
                 <p class="text-center">ค้นหาสินค้า</p>
             </div>
-            <div class="col-sm-4">
+            <div class="col-md-4">
                 <input type="text" name="search" id="search" value="{{search}}" placeholder="ค้นหา"
                       class="form-control col">
             </div>
-            <div class="col-sm-3">
+            <div class="col-md-3">
                 <select name="sel" id="{{sel}}" class="form-control col">
                     <option value="0">ทั้งหมด</option>
                     {% for t in type %}
@@ -44,9 +38,9 @@
                     <h5 class="card-title">{{ p.name }}</h5>
                     <p class="card-text">{{ p.type.type_name }}</p>
                     <p class="card-text">{{ p.price|stringformat:".2f" }} บาท</p>
-                    {% if p.stock > 0 %}
+                    {% if p.stock >= 5 %}
                     <a href="{% url 'addtobasket' product_id=p.id%}"><p class="card-text">
-                        <div class="btn btn-success col">หยิบสินค้าลงตะกร้า</div>
+                        <div class="btn btn-success col">ซื้อ</div>
                     </p></a>
                     {% else %}
                         <div class="btn btn-info col disabled">สินค้าหมด</div>

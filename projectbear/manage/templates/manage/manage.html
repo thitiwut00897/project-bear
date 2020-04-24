@@ -49,8 +49,8 @@
         </thead>
         <tbody>
         {% for p in product %}
-          {% if p.stock == 0%}
-            <tr class='text-white bg-danger'>
+          {% if p.stock < 5%}
+            <tr class='bg-warning'>
           {% else %}
             <tr>
           {% endif %}
@@ -61,7 +61,7 @@
             <td width='70'>{{ p.stock }}</td>
             <td width='20'>
               <a href="{% url 'pup' product_id=p.id %}">
-                <div class="btn btn-warning col">อัพเดท</div>
+                <div class="btn btn-info col">อัพเดท</div>
               </a>
             </td>
             <td width='20'>

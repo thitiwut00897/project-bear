@@ -17,7 +17,7 @@
             <td>หมายเลขออเดอร์</td>
             <td>ชื่อผู้ใช้</td>
             <td>ราคาสินค้ารวม</td>
-            <td>วันที่</td>
+            <td>วันที่/เวลา</td>
             <td colspan='2'></td>
           </tr>
         </thead>
@@ -38,6 +38,10 @@
                 <div class="btn btn-danger col">ลบ</div>
               </a>
             </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan='6'>ไม่มีคิวสั่งซื้อที่รออยู่</td>
           </tr>
           {% endfor %}
         </tbody>

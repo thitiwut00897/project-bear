@@ -128,14 +128,18 @@ def addtobasket(request,product_id): #เพิ่มสินค้าเข้
     product = Product.objects.get(pk=product_id)
     item = Order_items.objects.all()
     unit = 1
-    if product.stock > 0:
+    if product.stock >= 5:
         if item:
             for i in item:
                 if i.item_no_id == product_id:
-                    item = Order_items.objects.get(id=i.id)
-                    item.unit += 1
-                    item.item_price = item.unit*product.price
-                    break
+                    item = Order_items.objects.get(pk=i.id)
+                    if i.unit < 5:
+                        item.unit += 1
+                        item.item_price = item.unit*product.price
+                        break
+                    else:
+                        messages.info(request,'Error')
+                        break
                 else:
                     item = Order_items()
                     item.item_no_id= product.id
@@ -187,12 +191,21 @@ def acceptorder(request, orders_id): # ยืนยันว่าการส�
     return redirect('queue')
 
 def deleteorder(request, order_id): # ยกเลิกการสั่งซื้อนี้
-    order= Order.objects.get(pk=order_id)
-    order.delete()
+    orders = Order.objects.get(pk=order_id)
+    order_refunditem = Order_Products.objects.filter(order=order_id)
+    for i in order_refunditem:
+        product = Product.objects.get(pk=i.product.id)
+        product.stock += i.amount
+        product.save()
+    orders.delete()
     return redirect('queue')
 
 def formpayment(request): #การสร้างการสั่งซื้อ ยังไม่สมบูรณ์
     item = Order_items.objects.all()
+    for i in item:
+        product = Product.objects.get(pk=i.item_no.id)
+        product.stock -= i.unit
+        product.save()
     total = item.aggregate(Sum('item_price'))['item_price__sum']
     orders = Order.objects.create(
         date = datetime.now(),
