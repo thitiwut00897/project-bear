@@ -320,10 +320,11 @@ def formpayment(request, order_id):
                 product_id = Product.objects.get(pk=i.item_no_id).id,
                 order_id = orders.id,
                 amount = i.unit
-            )
-            order_product.save()
+                )
+                order_product.save()
             item.delete()
             print("yeahhhhhh")
+            return redirect('index')
         else:
             body: json.loads(request.body)
             item = Order_items.objects.all()
