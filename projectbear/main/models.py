@@ -40,6 +40,7 @@ class Order_Products(models.Model):
 class Payment(models.Model):
     pay_id = models.ForeignKey(Order, on_delete=models.CASCADE,null=True)
     pay_time = models.DateTimeField(auto_now=True)
-    pay_price = models.FloatField()
     pay_name = models.CharField(max_length=255,null=True)
-    pay_file = models.ImageField
+    pay_file = models.ImageField()
+    pay_status = models.CharField(max_length=255,null=True)
+    

@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'main',
     'manage',
     'report',
-    'crispy_forms'
+    'crispy_forms',
+    'paypal.standard.ipn',
+    
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MIDDLEWARE = [
@@ -127,3 +129,13 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 LOGIN_URL = '/login/'
+
+PAYPAL_RECEIVER_EMAIL = 'Sarin15130@gmail.com'
+PAYPAL_TEST = True
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'khumrak42@gmail.com'
+EMAIL_HOST_PASSWORD = 'Boylove42'
+EMAIL_USE_TLS = True
+

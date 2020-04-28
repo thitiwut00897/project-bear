@@ -82,10 +82,18 @@ def queue(request): #ดูคิวสั่งซื้อโดยเรี�
     return render(request,'manage/queue.html', context=context)
 
 def detail(request, order_id): #ดูรายละเอียดแต่ละการสั่งซื้อ
+    
     order = Order.objects.get(pk=order_id)
+    order2 = Order.objects.all().order_by('-id').filter(pk=order_id)
+    pm = Payment.objects.filter(pay_id=order_id)
     order_product = Order_Products.objects.filter(order=order_id)
     context={
         'order':order,
         'product':order_product,
+        'payment':pm,
+        'order2':order2,
+
     }
+    for i in pm:
+        print(i.pay_name)
     return render(request,'manage/detail.html', context=context)

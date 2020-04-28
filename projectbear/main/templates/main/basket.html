@@ -1,58 +1,63 @@
 {% extends 'base.html' %}
 {% block content %}
 <style>
-    .table-area{
+    .table-area {
         height: 55vh;
         overflow-y: scroll;
     }
-    .pad{
-        float:right;
+
+    .pad {
+        float: right;
     }
+
 </style>
-    <h2>ตะกร้าสินค้า</h2><br>
-    {% for m in messages %}
-        <div class="alert alert-info" role="alert">
-            {{m}}
-        </div>
-    {% endfor %}
-    <div class='container text-center'>
-        <div class='table-area'>
-            <table class='table'>
-                <tr>
-                    <td>จำนวน</td>
-                    <td>ชื่อสินค้า</td>
-                    <td>ราคา</td>
-                    <td>ราคารวม</td>
-                    <td></td>
-                </tr>
-                {% for c in basket %}
-                <tr>
-                    <td>{{c.unit}}</td>
-                    <td>{{c.item_no.name}}</td>
-                    <td>{{c.item_no.price}}</td>
-                    <td>{{c.item_price}}</td>
-                    <td>
+<h2>ตะกร้าสินค้า</h2><br>
+{% for m in messages %}
+<div class="alert alert-info" role="alert">
+    {{m}}
+</div>
+{% endfor %}
+<div class='container text-center'>
+    <div class='table-area'>
+        <table class='table'>
+            <tr>
+                <td>จำนวน</td>
+                <td>ชื่อสินค้า</td>
+                <td>ราคา</td>
+                <td>ราคารวม</td>
+                <td></td>
+            </tr>
+            {% for c in basket %}
+            <tr>
+                <td>{{c.unit}}</td>
+                <td>{{c.item_no.name}}</td>
+                <td>{{c.item_no.price}}</td>
+                <td>{{c.item_price}}</td>
+                <td>
                     <a href="{% url 'deletetobasket' basket_id=c.id %}">
                         <div class='btn btn-danger'>ลบ</div>
                     </a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan='5'>ไม่มีสินค้าในตะกร้า</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-        <hr>
-            <div class='h3 text-left'>ราคารวมทั้งหมด : <b class='pad'>{{total|stringformat:".2f"}} บาท</b></div>
-            
-        {% if total > 0 %}
-        <a href="{% url 'formpayment' %}">
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan='5'>ไม่มีสินค้าในตะกร้า</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <hr>
+    <div class='h3 text-left'>ราคารวมทั้งหมด : <b class='pad'>{{total|stringformat:".2f"}} บาท</b></div>
+
+    {% if total > 0 %}
+    {% for o in basket %}
+        <a href="{% url 'formpayment' order_id=o.id %}">
+            {% endfor %}
             <div class='btn btn-primary col'>ชำระเงิน</div>
         </a>
-        {% else %}
-            <div class='btn btn-primary col disabled'>ชำระเงิน</div>
-        {% endif %}
-    </div>
+    
+    {% else %}
+    <div class='btn btn-primary col disabled'>ชำระเงิน</div>
+    {% endif %}
+</div>
 {% endblock %}

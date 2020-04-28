@@ -27,3 +27,19 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = "__all__"
+
+class PaymentForm(forms.ModelForm): 
+    
+    pay_time = models.DateTimeField(auto_now=True)
+    pay_price = models.FloatField()
+    pay_status = models.CharField(max_length=255,null=True)
+    pay_name = forms.CharField(label='ชื่อลูกค้า:',required=True,widget=forms.TextInput(attrs={'class':'form-control waves-effect' ,'size': '16'}))
+    pay_file = forms.ImageField(label='หลักฐานการชำระเงิน',widget=forms.FileInput(attrs={'class':' form-group btn btn-default btn-xs ','aria-hidden':'True','type':'file','id':'imgInp','type':'file','size': '16'}),required=True)
+    class Meta:
+        model = Payment
+        fields = ['pay_name', 'pay_file']
+        exclude = ('pay_id',)
+         
+        
+
+        

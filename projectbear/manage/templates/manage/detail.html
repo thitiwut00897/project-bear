@@ -1,46 +1,152 @@
 {% extends 'base.html' %}
 {% block content %}
 <style>
-    .table-area{
+    .table-area {
         height: 55vh;
         overflow-y: scroll;
     }
-    .pad{
-        margin-left:700px;
+
+    .pad {
+        margin-left: 700px;
     }
+
 </style>
-    <h2>รายละเอียดสินค้า</h2><br>
-    {% comment %} {% for m in messages %}
-        <div class="alert alert-info" role="alert">
-            {{m}}
+
+
+<h2>รายละเอียดสินค้า</h2><br>
+{% comment %} {% for m in messages %}
+<div class="alert alert-info" role="alert">
+    {{m}}
+</div>
+{% endfor %} {% endcomment %}
+{% for p in payment %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            Invoice
+            <strong>{{p.pay_time}}</strong>
+            <span class="float-right"> <strong>Status:</strong> {{p.pay_status}}</span>
+
         </div>
-    {% endfor %} {% endcomment %}
-    <div class='container text-center'>
-        <div class='table-area'>
-            <table class='table'>
-                <tr>
-                    <td>จำนวน</td>
-                    <td>ชื่อสินค้า</td>
-                    <td>ราคา</td>
-                </tr>
-                {% for p in product %}
-                <tr>
-                    <td>{{p.amount}}</td>
-                    <td>{{p.product.name}}</td>
-                    <td>{{p.product.price|stringformat:'.2f'}}</td>
-                </tr>
-                {% endfor %} 
-            </table>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-sm-6">
+                    <h6 class="mb-3">ชื่อลูกค้า:</h6>
+                    <div>
+                        {% if p.pay_status == "โอน/ชำระผ่านบัญชีธนาคาร" %}
+                        <strong>{{p.pay_name}}</strong>
+                        {%else%}
+                            {% for o in order2 %}
+                                <strong>{{ o.customer }}</strong>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <div class="col-sm-6">
+                    <h6 class="mb-3">หมายเลขออเดอร์:</h6>
+                    <div>
+                        <strong>{{p.pay_id.id}}</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="table-responsive-sm">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+
+                            <th>ชื่อสินค้า</th>
+                            <th>จำนวน</th>
+
+
+                            <th class="right">ราคา</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in product %}
+                        <tr>
+                            <td>{{p.amount}}</td>
+                            <td>{{p.product.name}}</td>
+                            <td>{{p.product.price|stringformat:'.2f'}}</td>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+
+
+                <div class="col-lg-7 col-sm-1">
+                    <table class="table table-clear">
+                        <tbody>
+                            {% if user.is_staff %}
+                                {% if p.pay_status == "โอน/ชำระผ่านบัญชีธนาคาร" %}
+                                <td class="left">
+                                    <button class="btn btn-info"  type="button" id="btn1">หลักฐานการโอนเงิน</button> 
+                                </td>
+                                <td class="right"> 
+                                    <img src="{{p.pay_file.url}}" id="myImg" alt="My image">  
+                                </td>
+                                </tr>
+                                {% endif %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="col-lg-4 col-sm-3 ml-auto">
+                    <table class="table table-clear">
+                        <tbody>
+
+                            <td class="left">
+                                <strong>ราคารวมทั้งหมด</strong>
+                            </td>
+                            <td class="right">
+                                <strong>{{ order.total_price|stringformat:'.2f' }} บาท</strong>
+                            </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
         </div>
-        <h3>ราคาสินค้าทั้งหมด : {{ order.total_price|stringformat:'.2f' }} บาท</h3>
-        {% if user.is_staff %}
-            {% if order.status == False %}
-            <a href="{% url 'acceptorder' orders_id=order.id %}">
-                <div class="btn btn-success col">ยืนยัน</div>
-            </a>
-            {% else %}
-                <div class="btn btn-success col disabled">ชำระเสร็จสิ้นแล้ว</div>
-            {% endif %}
-        {% endif %}
     </div>
-{% endblock %}
+</div>
+
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-12">
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#btn1').on("click", function (e) {
+                        $('#myImg').toggle('slow');
+                    });
+                });
+            </script>
+        {% endfor %}
+
+
+
+        {% if user.is_staff %}
+        {% if order.status == False %}
+        <div><br></div>
+        <a href="{% url 'acceptorder' orders_id=order.id %}">
+            <div class="btn btn-success col">ยืนยัน</div>
+        </a>
+        <div><br></div>
+        <a href="{% url 'rejectorder' orders_id=order.id %}">
+            <div class="btn btn-success col">ปฏิเสธ</div>
+        </a>
+        {% else %}
+        <div class="btn btn-success col disabled">ชำระเสร็จสิ้นแล้ว</div>
+        {% endif %}
+        {% endif %}
+        {% endblock %}

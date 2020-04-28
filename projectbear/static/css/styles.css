@@ -7,7 +7,10 @@ body {
   padding: 0;
   font-family: 'Roboto';
 }
-
+label #imgInp{
+  font-family: 'Roboto';
+  font-size: 16px;
+}
 * {
   outline: none;
   box-sizing: border-box;
@@ -43,3 +46,55 @@ body {
     padding: 2.5em;
   }
 }
+
+
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
+
+#img-upload{
+  width: 100%;
+}
+
+
+.card.light-version .file-field input[type=text] {
+  border-bottom: 1px solid #fff; }
+  .card.light-version .file-field input[type=text]::-webkit-input-placeholder {
+  color: #fff;
+  font-weight: 300; }
+  .card.light-version .file-field input[type=text]::-moz-placeholder {
+  color: #fff;
+  font-weight: 300; }
+  .card.light-version .file-field input[type=text]:-ms-input-placeholder {
+  color: #fff;
+  font-weight: 300; }
+  .card.light-version .file-field input[type=text]::placeholder {
+  color: #fff;
+  font-weight: 300; }
+  .card.light-version .file-field input[type=text]:focus:not([readonly]) {
+  -webkit-box-shadow: 0 1px 0 0 #fff;
+  box-shadow: 0 1px 0 0 #fff; }
+  .card.light-version .file-field input[type=text].valid {
+  border-bottom: 1px solid #00c851;
+  -webkit-box-shadow: 0 1px 0 0 #00c851;
+  box-shadow: 0 1px 0 0 #00c851; }
+  .card.light-version .file-field input[type=text]:focus.valid {
+  border-bottom: 1px solid #00c851;
+  -webkit-box-shadow: 0 1px 0 0 #00c851;
+  box-shadow: 0 1px 0 0 #00c851; }
