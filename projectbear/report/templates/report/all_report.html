@@ -66,13 +66,15 @@
     </div>
     <div class='col-lg-8'>
         <div style='overflow-y: scroll; height: 70vh; width: 100vh;'>
-        <table class='table text-center'>
-            <tr>
-                <td>หมายเลขออเดอร์</td>
-                <td>วันที่</td>
-                <td>ราคารวม</td>
-                <td></td>
-            </tr>
+        <table class="table table-bordered-primary text-center">
+            <thead class="bg-dark text-light">
+                <tr>
+                    <td>หมายเลขออเดอร์</td>
+                    <td>วันที่</td>
+                    <td>ราคารวม</td>
+                    <td></td>
+                </tr>
+            </thead>
             {% for o in order %}
             <tr>
                 <td>{{o.id}}</td>
@@ -80,7 +82,7 @@
                 <td>{{o.total_price|stringformat:'.2f'}}</td>
                 <td>
                     <a href="{% url 'detail' order_id=o.id %}">
-                        <div class="btn btn-success">รายละเอียด</div>
+                        <div class="buttongreen">รายละเอียด</div>
                     </a>
                 </td>
             </tr>

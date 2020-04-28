@@ -19,14 +19,16 @@
 {% endfor %}
 <div class='container text-center'>
     <div class='table-area'>
-        <table class='table'>
-            <tr>
-                <td>จำนวน</td>
-                <td>ชื่อสินค้า</td>
-                <td>ราคา</td>
-                <td>ราคารวม</td>
-                <td></td>
-            </tr>
+        <table class="table table-bordered-primary text-center">
+            <thead class="bg-dark text-light">
+                <tr>
+                    <td>จำนวน</td>
+                    <td>ชื่อสินค้า</td>
+                    <td>ราคา</td>
+                    <td>ราคารวม</td>
+                    <td></td>
+                </tr>
+            </thead>
             {% for c in basket %}
             <tr>
                 <td>{{c.unit}}</td>
@@ -35,7 +37,7 @@
                 <td>{{c.item_price}}</td>
                 <td>
                     <a href="{% url 'deletetobasket' basket_id=c.id %}">
-                        <div class='btn btn-danger'>ลบ</div>
+                        <div class='buttonred'>ลบ</div>
                     </a>
                 </td>
             </tr>
@@ -53,11 +55,11 @@
     {% for o in basket %}
         <a href="{% url 'formpayment' order_id=o.id %}">
             {% endfor %}
-            <div class='btn btn-primary col'>ชำระเงิน</div>
+            <div class='buttonblue col'>ชำระเงิน</div>
         </a>
     
     {% else %}
-    <div class='btn btn-primary col disabled'>ชำระเงิน</div>
+    <div class='buttonyellow col disabled'>ชำระเงิน</div>
     {% endif %}
 </div>
 {% endblock %}
