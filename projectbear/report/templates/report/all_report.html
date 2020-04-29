@@ -4,21 +4,21 @@
 <script>
     var chart = {
     // The type of chart we want to create
-    type: 'line',
+    type: 'bar',
 
     // The data for our dataset
     data: {
         labels: [
-        {% for o in order %}
+        {% for o in order_graph %}
             {% if forloop.last %}
-            "id : {{o.id}}"
+            "หมายเลข : {{o.id}}"
             {% else %}
-            "id : {{o.id}}",
+            "หมายเลข : {{o.id}}",
             {% endif %}
         {% endfor %}],
         datasets: [{
             label: 'ราคารวม',
-            data: [{% for o in order %}
+            data: [{% for o in order_graph %}
             {% if forloop.last %}
             "{{o.total_price}}"
             {% else %}
@@ -26,7 +26,13 @@
             {% endif %}
         {% endfor %}],
             backgroundColor: [
+            {% for o in order_graph %}
+            {% if forloop.last %}
             'rgb(135,206,250)'
+            {% else %}
+            'rgb(135,206,250)',
+            {% endif %}
+        {% endfor %}
             ],
             borderColor: [
                 'rgba(0,0,0,0)'
@@ -56,6 +62,7 @@
 </script>
 <h2>สรุปยอดขาย</h2>
 <hr>
+<h4>ยอดขายในแต่ละการสั่งซื้อมากที่สุด 5 อันดับประจำวัน</h4>
 <canvas id="myChart"></canvas>
 <br>
 <div class='row col-lg-12'>

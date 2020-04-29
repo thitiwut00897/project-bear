@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from main.models import Order,Order_Products,Payment
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Sum,Avg,Min,Max
+from datetime import *
 # Create your views here.
 @login_required
 def history_payment(request): #ดูประวัติการสั่งซื้อในแต่ละบัญชีผู้ใช้
@@ -17,8 +18,10 @@ def history_payment(request): #ดูประวัติการสั่ง�
 def all_report(request): #สรุปยอดขาย
     order = Order.objects.all().filter(status=True)
     order_pro = Order_Products.objects.all()
+    today = date.today()
     context={
         'order':order,
+        'order_graph':Order.objects.all().filter(status=True).filter(date__year=today.year, date__month=today.month, date__day=today.day).order_by('-total_price')[:5],
         'order_sum': order.aggregate(Sum('total_price'))['total_price__sum'],
         'order_avg':order.aggregate(Avg('total_price'))['total_price__avg'],
         'order_max':order.aggregate(Max('total_price'))['total_price__max'],
