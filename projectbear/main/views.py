@@ -218,6 +218,13 @@ def rejectorder(request, orders_id): # ยืนยันว่าการส�
     # email_from = settings.EMAIL_HOST_USER
     # recipient_list = [mailcus,]
     # send_mail( subject, message, email_from, recipient_list )
+    order_refunditem = Order_Products.objects.filter(order=orders_id)
+    for i in order_refunditem:
+        product = Product.objects.get(pk=i.product.id)
+        product.stock += i.amount
+        product.save()
+    order.delete()
+    #เพิ่มสินค้ากลับมา
     return redirect('queue')
 
 @login_required
