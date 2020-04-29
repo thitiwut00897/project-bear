@@ -88,7 +88,7 @@
                 <td>{{o.date}}</td>
                 <td>{{o.total_price|stringformat:'.2f'}}</td>
                 <td>
-                    <a href="{% url 'detail' order_id=o.id %}">
+                    <a href="{% url 'detail' order_id=o.id %}" target='_blank'>
                         <div class="buttongreen">รายละเอียด</div>
                     </a>
                 </td>

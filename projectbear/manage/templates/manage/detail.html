@@ -14,18 +14,13 @@
 
 
 <h2>รายละเอียดสินค้า</h2><br>
-{% comment %} {% for m in messages %}
-<div class="alert alert-info" role="alert">
-    {{m}}
-</div>
-{% endfor %} {% endcomment %}
 {% for p in payment %}
 <div class="container">
     <div class="card">
         <div class="card-header">
-            Invoice
-            <strong>{{p.pay_time}}</strong>
-            <span class="float-right"> <strong>Status:</strong> {{p.pay_status}}</span>
+            หมายเลข #{{p.id}}
+            <strong>| วันที่ {{p.pay_time}}</strong>
+            <span class="float-right"> <strong>ชำระด้วย :</strong> {{p.pay_status}}</span>
 
         </div>
         <div class="card-body">
@@ -55,23 +50,20 @@
             </div>
 
             <div class="table-responsive-sm">
-                <table class="table table-striped">
+                <table class="table table-striped text-center">
                     <thead>
                         <tr>
-
                             <th>ชื่อสินค้า</th>
                             <th>จำนวน</th>
-
-
                             <th class="right">ราคา</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for p in product %}
                         <tr>
-                            <td>{{p.amount}}</td>
                             <td>{{p.product.name}}</td>
-                            <td>{{p.product.price|stringformat:'.2f'}}</td>
+                            <td>{{p.amount}}</td>
+                            <td>{{p.product.price|stringformat:'.2f'}}</td>                            
                         </tr>
                         {% endfor %}
 

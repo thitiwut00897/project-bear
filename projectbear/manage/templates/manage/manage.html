@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 <body>
-{{text}}
+{% for m in messages %}
+        <div class="alert alert-info" role="alert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{m}}
+        </div>
+{% endfor %}
   <div class="container">
     <h2>จัดการสินค้า</h2>
     <hr>
@@ -70,6 +75,8 @@
               </a>
             </td>
           </tr>
+          {% empty %}
+          <tr><td colspan='7'>ไม่พบสินค้า</td></tr>
           {% endfor %}
         </tbody>
       </table>

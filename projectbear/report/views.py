@@ -16,12 +16,13 @@ def history_payment(request): #ดูประวัติการสั่ง�
 @login_required
 @permission_required('main.view_order')
 def all_report(request): #สรุปยอดขาย
-    order = Order.objects.all().filter(status=True)
-    order_pro = Order_Products.objects.all()
     today = date.today()
+    order = Order.objects.all().filter(status=True)
+    order_graph = order.filter(date__year=today.year, date__month=today.month, date__day=today.day).order_by('-total_price')[:5]
+    order_pro = Order_Products.objects.all()
     context={
         'order':order,
-        'order_graph':Order.objects.all().filter(status=True).filter(date__year=today.year, date__month=today.month, date__day=today.day).order_by('-total_price')[:5],
+        'order_graph': order_graph,
         'order_sum': order.aggregate(Sum('total_price'))['total_price__sum'],
         'order_avg':order.aggregate(Avg('total_price'))['total_price__avg'],
         'order_max':order.aggregate(Max('total_price'))['total_price__max'],

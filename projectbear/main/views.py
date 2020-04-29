@@ -1,9 +1,7 @@
 from django.shortcuts import render,redirect
-from django.core.mail import send_mail
+from django.core.mail import send_mail,EmailMessage
 from django.conf import settings
-from django.core.mail import EmailMessage
 from django.urls import reverse
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate,login,logout,update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -14,8 +12,6 @@ from main.forms import UpdateProfile,ProfileForm,PaymentForm
 from paypal.standard.forms import PayPalPaymentsForm
 from main.models import *
 from datetime import datetime
-from django.shortcuts import render
-# Create your views here.
 
 def index(request): #หน้าหลัก มีการค้นหาชื่อ/ประเภทสินค้า มีรูปภาพ
     product = Product.objects.all()
@@ -191,6 +187,7 @@ def update_profile(request):
         'form2':form2
     }
     return render(request,'profile.html',context=context)
+
 @login_required
 def acceptorder(request, orders_id): # ยืนยันว่าการสั่งซื้อนี้สำเร็จแล้ว
     order= Order.objects.get(pk=orders_id)
@@ -199,13 +196,12 @@ def acceptorder(request, orders_id): # ยืนยันว่าการส�
     order.status = True
     order.save()
     #ส่งเมล
-    
     messages.info(request,'สินค้าเสร็จแล้ว')
-    subject = 'ขอบคุณที่อุดหนุนร้านป้าหมี'
-    message = ' ออเดอร์ของท่านทำเสร็จเรียบร้อยแล้ว มารับได้เลยค่ะ❤️'
-    email_from = settings.EMAIL_HOST_USER
-    recipient_list = [mailcus,]
-    send_mail( subject, message, email_from, recipient_list )
+    # subject = 'ขอบคุณที่อุดหนุนร้านป้าหมี'
+    # message = ' ออเดอร์ของท่านทำเสร็จเรียบร้อยแล้ว มารับได้เลยค่ะ❤️'
+    # email_from = settings.EMAIL_HOST_USER
+    # recipient_list = [mailcus,]
+    # send_mail( subject, message, email_from, recipient_list )
     return redirect('queue')
 
 @login_required
@@ -217,13 +213,14 @@ def rejectorder(request, orders_id): # ยืนยันว่าการส�
     order.save()
     #ส่งเมล
     messages.info(request,'ข้อมูลชำระเงินไม่ถูกต้อง')
-    subject = 'จากร้านป้าหมี'
-    message = ' ข้อมูลการชำระเงินของท่านไม่ถูกต้องหรือมีปัญหา กรุณาทำรายการใหม่❤️'
-    email_from = settings.EMAIL_HOST_USER
-    recipient_list = [mailcus,]
-    send_mail( subject, message, email_from, recipient_list )
+    # subject = 'จากร้านป้าหมี'
+    # message = ' ข้อมูลการชำระเงินของท่านไม่ถูกต้องหรือมีปัญหา กรุณาทำรายการใหม่❤️'
+    # email_from = settings.EMAIL_HOST_USER
+    # recipient_list = [mailcus,]
+    # send_mail( subject, message, email_from, recipient_list )
     return redirect('queue')
 
+@login_required
 def deleteorder(request, order_id): # ยกเลิกการสั่งซื้อนี้
     orders = Order.objects.get(pk=order_id)
     order_refunditem = Order_Products.objects.filter(order=order_id)
@@ -235,7 +232,7 @@ def deleteorder(request, order_id): # ยกเลิกการสั่งซ
     return redirect('queue')
 
 @login_required
-def formpayment(request, order_id): 
+def formpayment(request, order_id):  #ชำระเงิน
     order = Order_items.objects.all()
     total = 0
     for i in order:
@@ -247,19 +244,14 @@ def formpayment(request, order_id):
             'form':form,
             'items': items,
             'order': order,
-            'total': total,
-
-            
+            'total': total
         }
-    
     if request.method == 'POST':
         form = PaymentForm(request.POST or None ,request.FILES or None)
-        if 'bank' in request.POST:
+        if 'bank' in request.POST:          #จ่ายผ่านพร้อมเพย์พร้อมแนบสลิป
             print("reeeee")
             if form.is_valid():
-            
                 item = Order_items.objects.all()
-
                 for i in item:
                     product = Product.objects.get(pk=i.item_no.id)
                     product.stock -= i.unit
@@ -270,7 +262,6 @@ def formpayment(request, order_id):
                     total_price = total,
                     customer = User.objects.get(pk=request.user.id)
                     )
-
                 id = Order.objects.get(pk=orders.id)
                 name = form.cleaned_data.get("pay_name") 
                 img = form.cleaned_data.get("pay_file") 
@@ -278,9 +269,7 @@ def formpayment(request, order_id):
                     pay_name = name,  
                     pay_file = img,
                     pay_id = id,
-                    pay_status = 'โอน/ชำระผ่านบัญชีธนาคาร',
-                                        
-                                        ) 
+                    pay_status = 'โอน/ชำระผ่านบัญชีธนาคาร') 
                 obj.save() 
                 for i in item:
                     order_product = Order_Products.objects.create(
@@ -289,10 +278,9 @@ def formpayment(request, order_id):
                         amount = i.unit
                     )
                     order_product.save()
-                    item.delete()
-                    
-
-        elif 'bank2' in request.POST: 
+            item.delete()
+            return redirect('index')
+        elif 'bank2' in request.POST:       #จ่ายเงินสดใช้เฉพาะหน้าร้าน
             print("booooooo")
             item = Order_items.objects.all()
             for i in item:
@@ -305,12 +293,8 @@ def formpayment(request, order_id):
                 total_price = total,
                 customer = User.objects.get(pk=request.user.id)
                 )
-
             id = Order.objects.get(pk=orders.id)
-            
-        
             obj = Payment.objects.create( 
-
                 pay_status = 'เงินสด',
                 pay_id = id,
             ) 
@@ -319,13 +303,12 @@ def formpayment(request, order_id):
                 order_product = Order_Products.objects.create(
                 product_id = Product.objects.get(pk=i.item_no_id).id,
                 order_id = orders.id,
-                amount = i.unit
-                )
-                order_product.save()
+                amount = i.unit)
+            order_product.save()
             item.delete()
             print("yeahhhhhh")
             return redirect('index')
-        else:
+        else:                               #จ่ายผ่าน_Paypal
             body: json.loads(request.body)
             item = Order_items.objects.all()
             for i in item:
@@ -336,14 +319,9 @@ def formpayment(request, order_id):
             orders = Order.objects.create(
                 date = datetime.now(),
                 total_price = total,
-                customer = User.objects.get(pk=request.user.id)
-                )
-
+                customer = User.objects.get(pk=request.user.id))
             id = Order.objects.get(pk=orders.id)
-            
-        
             obj = Payment.objects.create( 
-
                 pay_status = 'paypal',
                 pay_id = id,
             ) 
@@ -356,9 +334,5 @@ def formpayment(request, order_id):
             )
             order_product.save()
             item.delete()
-
-
-                                                                                                
-                    
-
+            return redirect('index')
     return render(request,'main/formpayment.html',context)

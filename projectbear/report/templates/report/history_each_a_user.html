@@ -6,6 +6,7 @@
             <td>หมายเลขการสั่งซื้อ</td>
             <td>วันที่/เวลา</td>
             <td>ราคา</td>
+            <td>สถานะ</td>
             <td></td>
         </tr>
     {% for h in history %}
@@ -13,6 +14,11 @@
             <td>{{h.id}}</td>
             <td>{{h.date}}</td>
             <td>{{h.total_price|stringformat:'.2f'}}</td>
+            {% if h.status == True %}
+                <td>เสร็จแล้ว</td>
+            {% else %}
+                <td>รอ</td>
+            {% endif %}
             <td width='140'>
              <a href="{% url 'detail' order_id=h.id %}">
                 <div class="btn btn-success col">รายละเอียด</div>

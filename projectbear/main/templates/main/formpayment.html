@@ -49,8 +49,8 @@
 											<tr>
 												<td>{{c.unit}}</td>
 												<td>{{c.item_no.name}}</td>
-												<td>{{c.item_no.price}}</td>
-												<td>{{c.item_price}}</td>
+												<td>{{c.item_no.price|stringformat:".2f"}}</td>
+												<td>{{c.item_price|stringformat:".2f"}}</td>
 
 											</tr>
 											{% endfor %}
@@ -60,12 +60,8 @@
 									<div class='h5  text-center'>ยอดชำระทั้งหมด : <b
 											class='pad'>{{total|stringformat:".2f"}} บาท</b></div>
 									<hr>
-
-
-
 									<button type="submit" value="2" name="bank2" class="btn btn-success col ">  Confirm
 									</button>
-									
 						</form>
 					</div> 
 				</div> 
@@ -85,9 +81,8 @@
 						<tr>
 							<td>{{c.unit}}</td>
 							<td>{{c.item_no.name}}</td>
-							<td>{{c.item_no.price}}</td>
-							<td>{{c.item_price}}</td>
-
+							<td>{{c.item_no.price|stringformat:".2f"}}</td>
+							<td>{{c.item_price|stringformat:".2f"}}</td>
 						</tr>
 						{% endfor %}
 					</table>
@@ -95,7 +90,7 @@
 				<hr>
 				<div class='h5  text-center'>ยอดชำระทั้งหมด : <b class='pad'>{{total|stringformat:".2f"}} บาท</b></div>
 				<hr>
-				<!-- Set up a container element for the button -->
+
 				<div id="paypal-button-container">
 
 					<!--  PayPal JavaScript  -->
@@ -110,7 +105,6 @@
 								var cookies = document.cookie.split(';');
 								for (var i = 0; i < cookies.length; i++) {
 									var cookie = cookies[i].trim();
-									// Does this cookie string begin with the name we want?
 									if (cookie.substring(0, name.length + 1) === (name + '=')) {
 										cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
 										break;
@@ -137,7 +131,6 @@
 							})
 						}
 						{% endfor %}
-						// Render the PayPal button into #paypal-button-container
 						paypal.Buttons({
 							locale: 'en_TH',
 							style: {
@@ -146,9 +139,6 @@
 
 								height: 40
 							},
-
-
-							// Set up the transaction
 							createOrder: function (data, actions) {
 								return actions.order.create({
 									purchase_units: [{
@@ -158,17 +148,12 @@
 									}]
 								});
 							},
-
-							// Finalize the transaction
 							onApprove: function (data, actions) {
 								return actions.order.capture().then(function (details) {
-									// Show a success message to the buyer
 									complateOrder()
 									alert('Transaction completed by ' + details.payer.name.given_name + '!');
 								});
 							}
-
-
 						}).render('#paypal-button-container');
 					</script>
 				</div>
@@ -197,7 +182,7 @@
 					{% csrf_token %}
 					{{ form.as_p }}
 					<img id='img-upload' />
-					<br>
+					<br><br>
 					<button type="submit" value="2" name="bank" class="btn btn-success col "> Confirm </button>
 				</form>
 			</div>

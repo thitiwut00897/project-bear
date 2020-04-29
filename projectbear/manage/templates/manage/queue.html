@@ -9,8 +9,12 @@
         margin-left:700px;
     }
 </style>
+{% for m in messages %}
+<div class="alert alert-info" role="alert">
+    {{m}}
+</div>
+{% endfor %}
     <h2>คิวสั่งซื้อ</h2><br>
-    {% comment %} {{ total }} {% endcomment %}
     <table class="table table-bordered-primary text-center">
           <thead class="bg-dark text-light">
           <tr>

@@ -80,7 +80,7 @@
 					<li>
 						<a href="{% url 'queue' %}" class="sidebar__nav__link">
 							<i class="mdi mdi-format-list-bulleted"></i>
-							<span class="sidebar__nav__text">คิวสั้งซื้อ</span>
+							<span class="sidebar__nav__text">คิวสั่งซื้อ</span>
 						</a>
 					</li>
 					<li>
@@ -105,20 +105,19 @@
                     {% endif %}
                     <li class="nav-item dropdown pl-1">
                         {% if request.user.is_active %}
-                            <a class="nav-link dropdown-toggle sidebar__nav__link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="mdi mdi-account-circle"></i>
-							<span class="sidebar__nav__text">{{request.user}}</span>
-                        
+                            <a class="nav-link sidebar__nav__link" id="navbarDropdown" aria-haspopup="false" aria-expanded="false">
+								<span class="sidebar__nav__text">{{request.user}}</span>
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <center>
-                            <img src="{{request.user.profile.picture.url}}" width='50%'>
-                            </center><br>
-                            <a class="dropdown-item" href="{% url 'profile' %}">โปรไฟล์</a>
-                            <a class="dropdown-item" href="{% url 'changepassword' %}">เปลี่ยนรหัสผ่าน</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'logout' %}">ออกจากระบบ</a>
-                            </div>
+							{% if not user.is_staff %}
+								<center>
+								<img src="{{request.user.profile.picture.url}}" width='50%'>
+								</center>
+								<br>
+								<a class="nav-link sidebar__nav__link" href="{% url 'profile' %}"><span class="sidebar__nav__text">โปรไฟล์</span></a>
+							{% endif %}
+								<a class="nav-link sidebar__nav__link" href="{% url 'changepassword' %}"><span class="sidebar__nav__text">เปลี่ยนรหัสผ่าน</span></a>
+								<span class="sidebar__nav__text"><div class="dropdown-divider"></div></span>
+								<a class="nav-link sidebar__nav__link" href="{% url 'logout' %}"><span class="sidebar__nav__text">ออกจากระบบ</span></a>
                         </li> 
                         {% else %}
 							<a href="{% url 'login' %}" class="sidebar__nav__link">
