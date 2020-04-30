@@ -15,11 +15,21 @@ def history_payment(request): #ดูประวัติการสั่ง�
 
 @login_required
 @permission_required('main.view_order')
-def all_report(request): #สรุปยอดขาย
+def all_report(request,filter_select): #สรุปยอดขาย
     today = date.today()
     order = Order.objects.all().filter(status=True)
-    order_graph = order.filter(date__year=today.year, date__month=today.month, date__day=today.day).order_by('-total_price')[:5]
     order_pro = Order_Products.objects.all()
+    if filter_select == 'all':
+        order = order
+    elif filter_select == 'day':
+        order = order.filter(date__day=datetime.now().day).filter(date__year=datetime.now().year)
+    elif filter_select == 'week':
+        order = order.filter(date__week=datetime.now().isocalendar()[1]).filter(date__year=datetime.now().year)
+    elif filter_select == 'month':
+        order = order.filter(date__month=datetime.now().month).filter(date__year=datetime.now().year)
+    elif filter_select == 'year':
+        order = order.filter(date__year=datetime.now().year)
+    order_graph = order.order_by('-total_price')[:5]
     context={
         'order':order,
         'order_graph': order_graph,

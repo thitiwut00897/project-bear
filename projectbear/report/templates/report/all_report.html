@@ -56,13 +56,29 @@
         data.innerHTML = '<p>ยอดขายเฉลี่ย : {{order_avg|stringformat:'.2f'}} บาท</p>'
         data.innerHTML += '<p>ยอดขายสูงสุด : {{order_max|stringformat:'.2f'}} บาท</p>'
         data.innerHTML += '<p>ยอดขายต่ำสุด : {{order_min|stringformat:'.2f'}} บาท</p>'
-        data.innerHTML += '<p>จำนวนสินค้าที่ขายได้ : {{order_sumamount}} ชิ้น</p>'
         document.querySelector('.show').remove()
     }
 </script>
 <h2>สรุปยอดขาย</h2>
+<div class='row'>
+    <div class='col-lg'>
+        <a href="{% url 'allreport' filter_select='all' %}"><div class='btn btn-light border col'>ทั้งหมด</div></a>
+    </div>
+    <div class='col-lg'>
+        <a href="{% url 'allreport' filter_select='day' %}"><div class='btn btn-light border col'>วัน</div></a>
+    </div>
+    <div class='col-lg'>
+        <a href="{% url 'allreport' filter_select='week' %}"><div class='btn btn-light border col'>สัปดาห์</div></a>
+    </div>
+    <div class='col-lg'>
+        <a href="{% url 'allreport' filter_select='month' %}"><div class='btn btn-light border col'>เดือน</div></a>
+    </div>
+    <div class='col-lg'>
+        <a href="{% url 'allreport' filter_select='year' %}"><div class='btn btn-light border col'>ปี</div></a>
+    </div>
+</div>
 <hr>
-<h4>ยอดขายในแต่ละการสั่งซื้อมากที่สุด 5 อันดับประจำวัน</h4>
+<h4>ยอดขายในแต่ละการสั่งซื้อมากที่สุด 5 อันดับ</h4>
 <canvas id="myChart"></canvas>
 <br>
 <div class='row col-lg-12'>
